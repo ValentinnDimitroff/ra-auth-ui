@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { createMuiTheme } from '@material-ui/core/styles'
 import { Admin } from 'react-admin';
 import { Route } from 'react-router-dom';
 import {
@@ -23,8 +24,9 @@ const AuthAdmin = ({
     ...rest
 }) => {
     const { authProvider, theme } = rest;
-     // TODO: useAuthProvider
-     // TODO: theme
+    // TODO: useAuthProvider
+    const muiTheme = useMemo(() => createMuiTheme(theme), [theme]);
+
     return (
         <Admin
             {...rest}
@@ -39,7 +41,7 @@ const AuthAdmin = ({
                         render={(props) => (
                             <route.component
                                 {...sanitizeRouteProps(props)}
-                                theme={theme}
+                                theme={muiTheme}
                                 authProvider={authProvider}
                             />
                         )}
