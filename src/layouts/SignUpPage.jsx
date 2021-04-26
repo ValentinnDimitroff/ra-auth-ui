@@ -24,13 +24,12 @@ const useStyles = makeStyles((theme) => ({
 export const SignUpPage = ({
     color,
     buttonText,
-    authProvider,
     onSuccessRedirect,
     ...props
 }) => {
     const classes = useStyles();
     const notify = useNotify();
-    const signUp = useSignUp(authProvider);
+    const signUp = useSignUp();
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');

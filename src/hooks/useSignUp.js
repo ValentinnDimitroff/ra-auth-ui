@@ -1,11 +1,13 @@
 import { useCallback } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import { useAuthProvider } from 'ra-core';
 
-export const useSignUp = (authProvider) => {
+export const useSignUp = () => {
     const location = useLocation();
     const locationState = location.state;
     const history = useHistory();
     const nextPathName = locationState && locationState.nextPathname;
+    const authProvider = useAuthProvider();
 
     const singUp = useCallback(
         (params, pathName = '/') => authProvider.signUp(params).then((ret) => {

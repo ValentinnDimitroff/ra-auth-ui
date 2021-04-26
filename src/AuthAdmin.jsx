@@ -23,8 +23,7 @@ const AuthAdmin = ({
     customRoutes = [],
     ...rest
 }) => {
-    const { authProvider, theme } = rest;
-    // TODO: useAuthProvider
+    const { theme } = rest;
     const muiTheme = useMemo(() => createMuiTheme(theme), [theme]);
 
     return (
@@ -42,7 +41,6 @@ const AuthAdmin = ({
                             <route.component
                                 {...sanitizeRouteProps(props)}
                                 theme={muiTheme}
-                                authProvider={authProvider}
                             />
                         )}
                     />
