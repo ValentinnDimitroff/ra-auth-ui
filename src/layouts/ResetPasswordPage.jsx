@@ -39,13 +39,12 @@ function getUrlParams() {
 export const ResetPasswordPage = ({
     color,
     buttonText,
-    authProvider,
     onSuccessRedirect,
     ...props
 }) => {
     const classes = useStyles();
     const notify = useNotify();
-    const resetPassword = useResetPassword(authProvider);
+    const resetPassword = useResetPassword();
 
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');

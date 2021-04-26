@@ -27,28 +27,28 @@ export const ForgotPasswordPage = ({
     signUpRoute,
     successMessage,
     failureMessage,
-    authProvider,
     ...props
 }) => {
     const classes = useStyles();
     const notify = useNotify();
-    const forgotPassword = useForgotPassword(authProvider);
+    const forgotPassword = useForgotPassword();
     const [email, setEmail] = useState('');
-    const [errors, setErrors] = useState({});
-    const [result, setResult] = useState(undefined);
+    const [errors, setErrors] = useState();
+    const [success, setSuccess] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
 
     const onSubmit = (e) => {
         e.preventDefault();
+        setSubmitted(true);
 
         forgotPassword(email)
             .then(() => {
                 notify('Submission successful!', 'success');
-                setResult(true);
+                setSuccess(true);
             })
             .catch((err) => {
                 setErrors(err.errors);
                 notify('Unsuccessful submission!', 'error');
-                setResult(false);
             });
     };
 
@@ -64,7 +64,7 @@ export const ForgotPasswordPage = ({
                         </li>
                     )))}
             </ul>
-            {result === undefined && (
+            {!submitted && (
                 <form className={classes.form} method="post" onSubmit={onSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -105,7 +105,8 @@ export const ForgotPasswordPage = ({
                     </Grid>
                 </form>
             )}
-            {result !== undefined && (result ? successMessage : failureMessage)}
+            {errors && <FailureMessage />}
+            {success && <SuccessMessage />}
         </AuthScreenBaseLayout>
     );
 };
