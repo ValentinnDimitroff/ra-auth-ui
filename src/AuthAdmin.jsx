@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Admin } from 'react-admin';
 import { Route } from 'react-router-dom';
 import {
+    LOGIN_ROUTE,
     FORGOT_PASSWORD_ROUTE,
     RESET_PASSWORD_ROUTE,
     SIGN_UP_ROUTE,
@@ -14,52 +15,65 @@ import {
     SignUpPage,
 } from './layouts';
 
+const sanitizeRouteProps = ({ title, ...rest }) => rest
+
 const AuthAdmin = ({
-    authProvider,
     authRoutes,
-    customRoutes,
+    customRoutes = [],
     ...rest
-}) => (
-    <Admin
-        {...rest}
-        authProvider={authProvider}
-        loginPage={LoginPage}
-        customRoutes={[
-            ...customRoutes,
-            ...authRoutes.map((route) => (
-                <Route
-                    exact
-                    noLayout
-                    path={route.path}
-                    render={(props) => (
-                        <route.component {...props} authProvider={authProvider} />
-                    )}
-                />
-            )),
-        ]}
-    />
-);
+}) => {
+    const { authProvider, theme } = rest;
+     // TODO: useAuthProvider
+     // TODO: theme
+    return (
+        <Admin
+            {...rest}
+            loginPage={false}
+            customRoutes={[
+                ...customRoutes,
+                ...authRoutes.map((route) => (
+                    <Route
+                        exact
+                        noLayout
+                        path={route.path}
+                        render={(props) => (
+                            <route.component
+                                {...sanitizeRouteProps(props)}
+                                theme={theme}
+                                authProvider={authProvider}
+                            />
+                        )}
+                    />
+                )),
+            ]}
+        />
+    )
+};
 
 AuthAdmin.defaultProps = {
-    authRoutes: {
-        signup: {
+    authRoutes: [
+        {
+            path: LOGIN_ROUTE,
+            component: LoginPage,
+        },
+        {
             path: SIGN_UP_ROUTE,
             component: SignUpPage,
         },
-        forgotPassword: {
+        {
             path: FORGOT_PASSWORD_ROUTE,
             component: ForgotPasswordPage,
         },
-        resetPassword: {
+        {
             path: RESET_PASSWORD_ROUTE,
             component: ResetPasswordPage,
         },
-    },
+    ]
 };
 
 AuthAdmin.propTypes = {
     customRoutes: PropTypes.array,
-    authRoutes: PropTypes.object,
+    authRoutes: PropTypes.array,
     authProvider: PropTypes.object,
 };
 
