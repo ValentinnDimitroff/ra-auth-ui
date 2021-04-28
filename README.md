@@ -31,24 +31,15 @@ npm run start-demo
 #or
 yarn start-demo
 ```
-<!-- # Table of Content
-Show View 
+# Available Props
 
-<ul>
-    <li><a href="#layouts">Layouts</a></li>
-    <ul>
-        <li><a href="#boxedshowlayout">Box ShowLayout</a></li>
-        <li><a href="#gridshowlayout">Grid ShowLayout</a></li>
-        <li><a href="#boxedshowlayout">Compact ShowLayout</a></li>
-        <li><a href="#boxedshowlayout">Show Splitter</a></li>
-    </ul>    
-</ul>
+| Name        | Type            | Default   | Description                                                                                           |
+|-------------|-----------------|-----------|-------------------------------------------------------------------------------------------------------|
+| authRoutes  | array           | array     | If unset provides ddefault authentication routes and screens.                                         |
+| authLayout  | object          | undefined | If set to '{userMenu: true}' provides default UserMenu. If set to object pass on the props to Layout. |
+| profilePage | bool \| element | undefined | If set to 'true' provides default Profile Page layout. You can pass the yout own component.           |
 
-Create & Edit View 
-
-<ul>
-    <li><a href="#compactform">CompactForm</a></li>
-</ul> -->
+<br/>
 
 # How to use
 ## Prepare the authProvider
@@ -98,3 +89,29 @@ Example
 ```
 Example
 ``` -->
+
+Docs Sketches ->
+
+# authLayout
+Provides authenticated layout with smart defaults.
+
+### Default 
+ - if pass profilePage = true, out of the box profile page is loaded
+
+### Supports object
+ - userMenu - if no appBar is passed
+    - true - default menu with profile link and logout button
+    - array of object - {to, ...}
+    - array of elements - TODO fnc receiving permissions and return element
+
+Other supported keys
+
+ - menu
+ - appBar
+ - sideBar
+
+# profilePage
+ - if set to true - default page
+ - supports passing own component
+
+

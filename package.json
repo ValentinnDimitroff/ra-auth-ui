@@ -52,7 +52,10 @@
         "prettier": "prettier  --config prettier.config.js --write ./src/",
         "start-demo": "cd examples/demo && yarn start"
     },
-    "repository": "https://github.com/ValentinnDimitroff/ra-auth-ui.git",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ValentinnDimitroff/ra-auth-ui.git"
+    },
     "author": "Valentin Dimitroff",
     "license": "MIT"
 }
