@@ -98,3 +98,23 @@ Example
 ```
 Example
 ``` -->
+
+# Authenticated Layout
+
+## authLayout
+
+### Default 
+ - renders a user menu with profile link
+ - if pass profilePage = true, out of the box profile page is loaded
+
+### Supports object
+<!-- needs table -->
+ - userMenu - if no appBar is passed
+    - true - default menu
+    - array of object - {to, ...}
+    - array of elements - TODO fnc receiving permissions and return element
+ - menu
+ - appBar
+ - sideBar
+
+
