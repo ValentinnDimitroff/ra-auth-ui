@@ -2,7 +2,7 @@ import React from 'react';
 import { AppBar } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import UserMenu from './UserMenu';
+import { UserMenu } from './user-menu';
 
 const useStyles = makeStyles({
     title: {

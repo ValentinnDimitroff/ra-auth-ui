@@ -2,6 +2,7 @@ import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 
 const LayoutConfigContext = createContext({
+    appBar: undefined,
     userMenu: [],
 });
 

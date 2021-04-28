@@ -4,26 +4,27 @@ import React, {
 import PropTypes from 'prop-types';
 import { useTranslate } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {
     Menu, Button, IconButton, Tooltip,
 } from '@material-ui/core';
-import AccountCircleIcon from '@material-ui/icons/AccountCircleIcon';
 
 const MENU_ID = 'user-menu';
 
 const useStyles = makeStyles({
-    userButton: {
+    textButton: {
         textTransform: 'none',
     },
 });
 
-const CompactUserMenu = ({
-    children,
+const UserMenuBase = ({
     label,
     icon,
     logout,
+    classes: classesOverride,
+    children,
 }) => {
-    const classes = useStyles();
+    const classes = { ...useStyles(), ...classesOverride };
     const translate = useTranslate();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -36,11 +37,11 @@ const CompactUserMenu = ({
     const onMenuClose = () => setAnchorEl(null);
 
     return (
-        <div className={classes.user}>
+        <div className={classes.root}>
             {label ? (
                 <Button
                     aria-label={label && translate(label, { _: label })}
-                    className={classes.userButton}
+                    className={classes.textButton}
                     aria-owns={open ? MENU_ID : null}
                     color="inherit"
                     startIcon={icon}
@@ -49,11 +50,12 @@ const CompactUserMenu = ({
                     {translate(label, { _: label })}
                 </Button>
             ) : (
-                <Tooltip title={label}>
+                <Tooltip title="Profile">
                     <IconButton
                         aria-label={label}
                         aria-owns={open ? MENU_ID : null}
                         aria-haspopup
+                        className={classes.iconButton}
                         color="inherit"
                         onClick={onMenuClick}
                     >
@@ -89,15 +91,16 @@ const CompactUserMenu = ({
     );
 };
 
-CompactUserMenu.propTypes = {
+UserMenuBase.propTypes = {
+    classes: PropTypes.object,
     children: PropTypes.node,
     label: PropTypes.string,
     logout: PropTypes.element,
     icon: PropTypes.node,
 };
 
-CompactUserMenu.defaultProps = {
+UserMenuBase.defaultProps = {
     icon: <AccountCircleIcon />,
 };
 
-export default CompactUserMenu;
+export default UserMenuBase;
