@@ -24,6 +24,9 @@
         "indent": ["error", 4, {
             "ignoredNodes": ["JSXAttribute", "JSXSpreadAttribute"]
         }],
+        "react/jsx-filename-extension": [1, {
+            "extensions": [".js", ".jsx"]
+        }],
         "react/jsx-indent": [2, 4, {
             "indentLogicalExpressions": true
         }],
@@ -34,7 +37,9 @@
                 "caseSensitive": false
             }
         ],
-        "max-len": ["error", { "code": 100 }],
+        "max-len": ["error", {
+            "code": 100
+        }],
         "import/prefer-default-export": 0,
         "react/jsx-props-no-spreading": 0,
         "react/require-default-props": 0,
