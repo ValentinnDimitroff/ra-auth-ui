@@ -22,28 +22,32 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const UserMenuItem = ({
-    label,
-    to,
-    icon,
-    onClick,
-    ...props
-}) => {
-    const classes = useStyles();
-    const translate = useTranslate();
+const UserMenuItem = React.forwardRef(
+    ({
+        label,
+        to,
+        icon,
+        onClick,
+        ...props
+    },
+    ref) => {
+        const classes = useStyles();
+        const translate = useTranslate();
 
-    return (
-        <MenuItemLink
-            {...props}
-            to={to}
-            primaryText={translate(label)}
-            leftIcon={icon}
-            onClick={onClick}
-            classes={classes}
-            sidebarIsOpen
-        />
-    );
-};
+        return (
+            <MenuItemLink
+                {...props}
+                ref={ref}
+                to={to}
+                primaryText={translate(label)}
+                leftIcon={icon}
+                onClick={onClick}
+                classes={classes}
+                sidebarIsOpen
+            />
+        );
+    },
+);
 
 UserMenuItem.propTypes = {
     label: PropTypes.string,

@@ -95,7 +95,7 @@ AuthAdmin.propTypes = {
     layout: PropTypes.node,
     menu: PropTypes.node,
     userMenu: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-    profilePage: PropTypes.node,
+    profilePage: PropTypes.element,
 };
 
 export default AuthAdmin;

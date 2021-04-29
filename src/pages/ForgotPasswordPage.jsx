@@ -125,8 +125,8 @@ ForgotPasswordPage.propTypes = {
     color: PropTypes.string,
     buttonText: PropTypes.string,
     signUpRoute: PropTypes.string,
-    successMessage: PropTypes.node,
-    failureMessage: PropTypes.node,
+    successMessage: PropTypes.element,
+    failureMessage: PropTypes.element,
     authProvider: PropTypes.object,
 };
 
