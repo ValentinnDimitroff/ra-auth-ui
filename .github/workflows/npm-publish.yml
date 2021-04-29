@@ -36,8 +36,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: Test
-        run: echo  ${{ toJson(github.event) }}
+        # - name: Test
+        # run: echo  ${{ toJson(github.event) }}
       - name: Read release type
         if: ${{ contains(github.event.label.name, 'minor')}}
         run: echo "release_type=minor" >> "$GITHUB_ENV"
