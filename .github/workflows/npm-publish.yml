@@ -63,7 +63,7 @@ jobs:
         run: |
           yarn --no-git-tag-version version --${{ env.release_type }} -m "Auto bump version to %s"
           git commit -a -m "Update package.json with latest package versions"
-          git push https://${{secrets.GITHUB_TOKEN}}@github.com/$GITHUB_ACTOR/$GITHUB_REPOSITORY latest
+          git push https://${{secrets.GITHUB_TOKEN}}@github.com/$GITHUB_ACTOR/$GITHUB_REPOSITORY $GITHUB_REF_NAME
 
   publish-npm:
     needs: bump-version
