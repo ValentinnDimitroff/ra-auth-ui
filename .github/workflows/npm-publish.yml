@@ -36,15 +36,22 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+        run: echo  ${{ github.event }}
       - name: Read release type
-        run: |
-          if [[ github.event.label.name == 'release:minor' ]]; then
-              echo "release_type=minor" >> "$GITHUB_ENV"
-          else if [[ github.event.label.name == 'release:major' ]]; then
-              echo "release_type=major" >> "$GITHUB_ENV"
-          else 
-              echo "release_type=patch" >> "$GITHUB_ENV"
-          fi
+        if: ${{ github.event.label.name, 'minor')}}
+        run: echo "release_type=minor" >> "$GITHUB_ENV"
+        if: ${{ github.event.label.name, 'major')}}
+        run: echo "release_type=major" >> "$GITHUB_ENV"
+        if: ${{ github.event.label.name, 'patch')}}
+        run: echo "release_type=patch" >> "$GITHUB_ENV"
+        # run: |
+        #   if [[ github.event.label.name == 'release:minor' ]]; then
+        #       echo "release_type=minor" >> "$GITHUB_ENV"
+        #   else if [[ github.event.label.name == 'release:major' ]]; then
+        #       echo "release_type=major" >> "$GITHUB_ENV"
+        #   else 
+        #       echo "release_type=patch" >> "$GITHUB_ENV"
+        #   fi
       - name: Setup GIT
         run: |
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
