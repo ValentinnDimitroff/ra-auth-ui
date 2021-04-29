@@ -63,7 +63,7 @@ jobs:
       - name: Bump version
         run: |
           yarn install
-          yarn --no-git-tag-version version ${{ env.release_type }} -m "Auto bump version to %s"
+          yarn --no-git-tag-version version --${{ env.release_type }} -m "Auto bump version to %s"
           yarn publish
           git commit -a -m "Auto bump version"
           git push https://${{secrets.GITHUB_TOKEN}}@github.com/$GITHUB_REPOSITORY $GITHUB_REF_NAME
