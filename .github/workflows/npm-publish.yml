@@ -39,13 +39,13 @@ jobs:
       - name: Test
         run: echo  ${{ github.event }}
       - name: Read release type
-        if: ${{ github.event.label.name, 'minor')}}
+        if: ${{ contains(github.event.label.name, 'minor')}}
         run: echo "release_type=minor" >> "$GITHUB_ENV"
       - name: Check for minor
-        if: ${{ github.event.label.name, 'major')}}
+        if: ${{ contains(github.event.label.name, 'major')}}
         run: echo "release_type=major" >> "$GITHUB_ENV"
       - name: Check for major
-        if: ${{ github.event.label.name, 'patch')}}
+        if: ${{ !env.release_type }}
         run: echo "release_type=patch" >> "$GITHUB_ENV"
         # run: |
         #   if [[ github.event.label.name == 'release:minor' ]]; then
