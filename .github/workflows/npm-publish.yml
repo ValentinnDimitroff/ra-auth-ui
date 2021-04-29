@@ -36,12 +36,15 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - name: Test
         run: echo  ${{ github.event }}
       - name: Read release type
         if: ${{ github.event.label.name, 'minor')}}
         run: echo "release_type=minor" >> "$GITHUB_ENV"
+      - name: Check for minor
         if: ${{ github.event.label.name, 'major')}}
         run: echo "release_type=major" >> "$GITHUB_ENV"
+      - name: Check for major
         if: ${{ github.event.label.name, 'patch')}}
         run: echo "release_type=patch" >> "$GITHUB_ENV"
         # run: |
@@ -81,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: 
       contents: read
-      packages: write 
+      repository-projects: write 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
