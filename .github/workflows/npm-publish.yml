@@ -39,13 +39,13 @@ jobs:
           registry-url: https://registry.npmjs.org/
         # - name: Test
         # run: echo  ${{ toJson(github.event) }}
-      - name: Read release type
-        if: ${{ contains(github.event.label.name, 'minor')}}
+      - name: Check for minor label and assign release
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'minor')}}
         run: echo "release_type=minor" >> "$GITHUB_ENV"
-      - name: Check for minor
-        if: ${{ contains(github.event.label.name, 'major')}}
+      - name: Check for major label and assign release
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'major')}}
         run: echo "release_type=major" >> "$GITHUB_ENV"
-      - name: Check for major
+      - name: Assign patch release
         if: ${{ !env.release_type }}
         run: echo "release_type=patch" >> "$GITHUB_ENV"
         # run: |
