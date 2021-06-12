@@ -65,7 +65,7 @@ const UserMenuBase = ({
             )}
             <Menu
                 id={MENU_ID}
-                // anchorEl={anchorEl}
+                anchorEl={anchorEl}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'right',
