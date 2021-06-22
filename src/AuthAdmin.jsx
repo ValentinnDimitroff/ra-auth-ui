@@ -3,22 +3,10 @@ import PropTypes from 'prop-types';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { Admin } from 'react-admin';
 import { Route } from 'react-router-dom';
-import {
-    LOGIN_ROUTE,
-    FORGOT_PASSWORD_ROUTE,
-    RESET_PASSWORD_ROUTE,
-    SIGN_UP_ROUTE,
-    PROFILE_ROUTE,
-} from './constants/defaultRoutes';
-import {
-    ForgotPasswordPage,
-    LoginPage,
-    ProfilePage,
-    ResetPasswordPage,
-    SignUpPage,
-} from './pages';
+import { PROFILE_ROUTE } from './constants/defaultRoutes';
+import { ProfilePage } from './pages';
 import { AuthLayout, LayoutConfigContextProvider } from './layout';
-import { createAuthRoute } from './utils';
+import { createAuthRoute, defaultAuthRoutes } from './utils';
 
 const AuthAdmin = ({
     authRoutes,
@@ -67,24 +55,7 @@ const AuthAdmin = ({
 
 AuthAdmin.defaultProps = {
     customRoutes: [],
-    authRoutes: [
-        {
-            path: LOGIN_ROUTE,
-            component: LoginPage,
-        },
-        {
-            path: SIGN_UP_ROUTE,
-            component: SignUpPage,
-        },
-        {
-            path: FORGOT_PASSWORD_ROUTE,
-            component: ForgotPasswordPage,
-        },
-        {
-            path: RESET_PASSWORD_ROUTE,
-            component: ResetPasswordPage,
-        },
-    ],
+    authRoutes: defaultAuthRoutes,
     profilePage: ProfilePage,
 };
 
