@@ -1,33 +1,23 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
+import React from 'react'
+import { Route } from 'react-router-dom'
 import {
     LOGIN_ROUTE,
     FORGOT_PASSWORD_ROUTE,
     RESET_PASSWORD_ROUTE,
     SIGN_UP_ROUTE,
-} from './constants/defaultRoutes';
-import {
-    ForgotPasswordPage,
-    LoginPage,
-    ResetPasswordPage,
-    SignUpPage,
-} from './pages';
+} from './constants/defaultRoutes'
+import { ForgotPasswordPage, LoginPage, ResetPasswordPage, SignUpPage } from './pages'
 
-const sanitizeRouteProps = ({ title, ...rest }) => rest;
+const sanitizeRouteProps = ({ title, ...rest }) => rest
 
 export const createAuthRoute = (routeObj, theme) => (
     <Route
         exact
         noLayout
         path={routeObj.path}
-        render={(props) => (
-            <routeObj.component
-                {...sanitizeRouteProps(props)}
-                theme={theme}
-            />
-        )}
+        render={(props) => <routeObj.component {...sanitizeRouteProps(props)} theme={theme} />}
     />
-);
+)
 
 export const defaultAuthRoutes = [
     {
@@ -46,4 +36,4 @@ export const defaultAuthRoutes = [
         path: RESET_PASSWORD_ROUTE,
         component: ResetPasswordPage,
     },
-];
+]

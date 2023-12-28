@@ -1,19 +1,18 @@
 {
     "name": "ra-auth-ui",
-    "version": "0.1.4",
+    "version": "1.0.0",
     "main": "dist/index.js",
     "module": "dist/index.js",
     "dependencies": {
         "prop-types": "^15.7.2"
     },
     "peerDependencies": {
-        "@material-ui/core": "^4.x",
-        "@material-ui/icons": "^4.11.2",
-        "@material-ui/styles": "^4.11.3",
-        "react": "^16.8.x",
-        "react-admin": "^3.14.4",
-        "react-dom": "^16.x",
-        "react-router-dom": "^5.2.0"
+        "@mui/icons-material": "^5.0.1",
+        "@mui/material": "^5.0.2",
+        "react": "^16.9.0 || ^17.0.0 || ^18.0.0",
+        "react-admin": "^4.x",
+        "react-dom": "^16.9.0 || ^17.0.0 || ^18.0.0",
+        "react-router-dom": "^6.1.0"
     },
     "devDependencies": {
         "@babel/cli": "^7.12.1",
