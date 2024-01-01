@@ -1,29 +1,27 @@
-import { useCallback } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
-import { useAuthProvider } from 'ra-core';
+import { useCallback } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useAuthProvider } from 'react-admin'
 
 export const useSignUp = () => {
-    const location = useLocation();
-    const locationState = location.state;
-    const history = useHistory();
-    const nextPathName = locationState && locationState.nextPathname;
-    const authProvider = useAuthProvider();
+    const location = useLocation()
+    const locationState = location.state
+    const navigate = useNavigate()
+    const nextPathName = locationState && locationState.nextPathname
+    const authProvider = useAuthProvider()
 
     const singUp = useCallback(
-        (params, pathName = '/') => authProvider.signUp(params).then((ret) => {
-            history.push(nextPathName || pathName);
-            return ret;
-        }),
-        [authProvider, history, nextPathName],
-    );
+        (params, pathName = '/') =>
+            authProvider.signUp(params).then((ret) => {
+                navigate(nextPathName || pathName)
+                return ret
+            }),
+        [authProvider, navigate, nextPathName]
+    )
 
-    const singUpWithoutProvider = useCallback(
-        () => {
-            history.push('/');
-            return Promise.resolve();
-        },
-        [history],
-    );
+    const singUpWithoutProvider = useCallback(() => {
+        navigate('/')
+        return Promise.resolve()
+    }, [navigate])
 
-    return authProvider ? singUp : singUpWithoutProvider;
-};
+    return authProvider ? singUp : singUpWithoutProvider
+}

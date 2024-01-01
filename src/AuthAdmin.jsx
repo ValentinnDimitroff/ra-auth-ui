@@ -1,72 +1,50 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { Admin } from 'react-admin';
-import { Route } from 'react-router-dom';
-import { PROFILE_ROUTE } from './constants/defaultRoutes';
-import { ProfilePage } from './pages';
-import { AuthLayout, LayoutConfigContextProvider } from './layout';
-import { createAuthRoute, defaultAuthRoutes } from './utils';
+import React from 'react'
+import PropTypes from 'prop-types'
+// import { createTheme } from '@mui/material/styles'
+import { Admin, CustomRoutes } from 'react-admin'
+import { Route } from 'react-router-dom'
+// import { PROFILE_ROUTE } from './constants/defaultRoutes'
+// import { ProfilePage } from './pages'
+import { defaultAuthRoutes } from './utils'
 
-const AuthAdmin = ({
-    authRoutes,
+export const AuthAdmin = ({
     authLayout,
-    profilePage,
+    authRoutes = defaultAuthRoutes,
+    // profilePage = <ProfilePage />,
     // react-admin props
-    customRoutes,
-    layout,
+    children,
     ...rest
 }) => {
-    const { theme } = rest;
-    const muiTheme = useMemo(() => createMuiTheme(theme), [theme]);
+    // const { theme } = rest
+    // const muiTheme = useMemo(() => createTheme(theme), [theme])
 
     // TODO - make UserMenu useable separetly in custom layout
-    const finalLayout = (authLayout && AuthLayout) || layout;
-
-    // Add auth default custom routes
-    if (authRoutes) {
-        authRoutes.map((route) => customRoutes.push(
-            createAuthRoute(route, muiTheme),
-        ));
-    }
+    // const finalLayout = (authLayout && AuthLayout) || layout
 
     // Add user default custom routes
-    if (profilePage) {
-        customRoutes.push(
-            <Route
-                exact
-                path={PROFILE_ROUTE}
-                component={profilePage}
-            />,
-        );
-    }
+    // if (profilePage) {
+    //     customRoutes.push(<Route exact path={PROFILE_ROUTE} element={<profilePage />} />)
+    // }
+    console.log('render 2', { rest })
 
     return (
-        <LayoutConfigContextProvider value={{ ...authLayout }}>
-            <Admin
-                {...rest}
-                layout={finalLayout}
-                loginPage={false}
-                customRoutes={customRoutes}
-            />
-        </LayoutConfigContextProvider>
-    );
-};
-
-AuthAdmin.defaultProps = {
-    customRoutes: [],
-    authRoutes: defaultAuthRoutes,
-    profilePage: ProfilePage,
-};
+        <Admin loginPage={false} {...rest}>
+            {/* <CustomRoutes noLayout>
+                {authRoutes.map(({ path, Component }) => (
+                    <Route key={path} exact path={path} element={<Component />} />
+                ))}
+            </CustomRoutes> */}
+            {children}
+        </Admin>
+    )
+}
 
 AuthAdmin.propTypes = {
     authRoutes: PropTypes.array,
     authLayout: PropTypes.object,
-    customRoutes: PropTypes.array,
     layout: PropTypes.node,
     menu: PropTypes.node,
     userMenu: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-    profilePage: PropTypes.element,
-};
-
-export default AuthAdmin;
+    profilePage: PropTypes.node,
+    children: PropTypes.node,
+}

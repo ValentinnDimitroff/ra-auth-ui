@@ -1,1 +1,1 @@
-export { default as AuthScreenBaseLayout } from './AuthScreenBaseLayout';
+export { default as AuthScreenBaseLayout } from './AuthScreenBaseLayout'

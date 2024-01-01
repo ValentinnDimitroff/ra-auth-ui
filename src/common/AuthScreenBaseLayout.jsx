@@ -1,63 +1,49 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Notification } from 'react-admin';
-import { ThemeProvider } from '@material-ui/styles';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
+import React from 'react'
+import PropTypes from 'prop-types'
+// import { ThemeProvider } from '@mui/material/styles'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Typography from '@mui/material/Typography'
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: 8,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
     avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        margin: 1,
+        backgroundColor: 'secondary.dark',
+        color: 'red',
     },
-}));
+}
 
-const AuthScreenBaseLayout = ({
-    title,
-    theme,
-    copyrights,
-    children,
-}) => {
-    const classes = useStyles();
-
-    return (
-        <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        {title}
-                    </Typography>
-                    {children}
-                </div>
-                <Box mt={5}>
-                    {copyrights}
-                </Box>
-                <Notification />
-            </Container>
-        </ThemeProvider>
-    );
-};
+const AuthScreenBaseLayout = ({ title, copyrights, children }) => (
+    // <ThemeProvider theme={theme}>
+    <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box sx={styles.paper}>
+            <Avatar sx={styles.avatar}>
+                <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+                {title}
+            </Typography>
+            {children}
+        </Box>
+        <Box mt={5}>{copyrights}</Box>
+    </Container>
+    // </ThemeProvider>
+)
 
 AuthScreenBaseLayout.propTypes = {
     title: PropTypes.string,
-    theme: PropTypes.object,
     children: PropTypes.any,
     copyrights: PropTypes.node,
-};
+}
 
-export default AuthScreenBaseLayout;
+export default AuthScreenBaseLayout

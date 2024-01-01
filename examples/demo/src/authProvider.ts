@@ -5,11 +5,10 @@ import data from "./users.json";
  * This authProvider is only for test purposes. Don't use it in production.
  */
 export const authProvider: AuthProvider = {
-  login: ({ username, password }) => {
+  login: ({ email, password }) => {
     const user = data.users.find(
-      (u) => u.username === username && u.password === password
+      (u) => u.username === email && u.password === password
     );
-
     if (user) {
       // eslint-disable-next-line no-unused-vars
       let { password, ...userToPersist } = user;

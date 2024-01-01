@@ -1,12 +1,14 @@
 # ra-auth-ui
+
 Authentication layouts, hooks and pipelines to integrate into react-admin out of the box
 
 No extra dependencies are required except the ones `react-admin` is already using.
 
-What's included? 
- - Login and Sign Up
- - Forgot Password and Reset Password
- - Easy to use wrappers
+What's included?
+
+-   Login and Sign Up
+-   Forgot Password and Reset Password
+-   Easy to use wrappers
 
 [![npm version](https://img.shields.io/npm/v/ra-auth-ui.svg)](https://www.npmjs.com/package/ra-auth-ui)
 [![npm downloads](https://img.shields.io/npm/dm/ra-auth-ui.svg)](https://www.npmjs.com/package/ra-auth-ui)
@@ -25,16 +27,19 @@ npm install ra-auth-ui
 #or
 yarn add ra-auth-ui
 ```
+
 Run the Demo
+
 ```sh
 npm run start-demo
 #or
 yarn start-demo
 ```
+
 # Available Props
 
 | Name        | Type            | Default   | Description                                                                                           |
-|-------------|-----------------|-----------|-------------------------------------------------------------------------------------------------------|
+| ----------- | --------------- | --------- | ----------------------------------------------------------------------------------------------------- |
 | authRoutes  | array           | array     | If unset provides ddefault authentication routes and screens.                                         |
 | authLayout  | object          | undefined | If set to '{userMenu: true}' provides default UserMenu. If set to object pass on the props to Layout. |
 | profilePage | bool \| element | undefined | If set to 'true' provides default Profile Page layout. You can pass the yout own component.           |
@@ -42,6 +47,7 @@ yarn start-demo
 <br/>
 
 # How to use
+
 ## Prepare the authProvider
 
 First you should build your `authProvider` as explained in the react-admin doc's [here](https://marmelab.com/react-admin/Authentication.html). \
@@ -49,26 +55,23 @@ Then extend it with the following verbs:
 
 ```jsx
 const authProvider = {
-    // ... default authProvider verbs 
-    signUp: params => Promise.resolve(),
-    forgotPassword: params => Promise.resolve(),
-    resetPassword: params => Promise.resolve(),
+    // ... default authProvider verbs
+    signUp: (params) => Promise.resolve(),
+    forgotPassword: (params) => Promise.resolve(),
+    resetPassword: (params) => Promise.resolve(),
 }
 ```
 
 ## Use AuthAdmin wrapper
 
- The most basic way to add the complete set of authentication screens to your app is to subtitute the `<Admin/>` component with `<AuthAdmin/>`. Built-in routing and custom pages will be added for you. 
+The most basic way to add the complete set of authentication screens to your app is to subtitute the `<Admin/>` component with `<AuthAdmin/>`. Built-in routing and custom pages will be added for you.
 
 ```jsx
 import { AuthAdmin } from 'ra-auth-ui'
 
-const App = () => (
-    <AuthAdmin authProvider={authProvider}>
-        // your Routes here
-    </AuthAdmin>
-)
+const App = () => <AuthAdmin authProvider={authProvider}>// your Routes here</AuthAdmin>
 ```
+
 `<AuthAdmin>` will pass forward all the props to the `<Admin>` component.
 
 <!-- ## Change route urls
@@ -93,25 +96,33 @@ Example
 Docs Sketches ->
 
 # authLayout
+
 Provides authenticated layout with smart defaults.
 
-### Default 
- - if pass profilePage = true, out of the box profile page is loaded
+### Default
+
+-   if pass profilePage = true, out of the box profile page is loaded
 
 ### Supports object
- - userMenu - if no appBar is passed
-    - true - default menu with profile link and logout button
-    - array of object - {to, ...}
-    - array of elements - TODO fnc receiving permissions and return element
+
+-   userMenu - if no appBar is passed
+    -   true - default menu with profile link and logout button
+    -   array of object - {to, ...}
+    -   array of elements - TODO fnc receiving permissions and return element
 
 Other supported keys
 
- - menu
- - appBar
- - sideBar
+-   menu
+-   appBar
+-   sideBar
 
 # profilePage
- - if set to true - default page
- - supports passing own component
 
+-   if set to true - default page
+-   supports passing own component
 
+# Troubleshooting
+
+-   `useRoutes() may be used only in the context of a <Router> component. react-admin`
+    This error relates to a missing or misplaced `<BrowserRouter>` wrapper. It should be wrapping the whole `<App/>` e.g.
+-   `No QueryClient set, use QueryClientProvider to set one`

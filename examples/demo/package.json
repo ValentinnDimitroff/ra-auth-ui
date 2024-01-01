@@ -10,17 +10,20 @@
     "format": "prettier --write ./src"
   },
   "dependencies": {
+    "@mui/icons-material": "^5.15.2",
+    "ra-auth-ui": "file:../../dist",
     "ra-data-fakerest": "^4.16.0",
     "react": "^18.2.0",
     "react-admin": "^4.16.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^5.60.1",
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@types/node": "^18.16.1",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
     "@vitejs/plugin-react": "^4.0.1",
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
@@ -28,6 +31,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.8",
     "typescript": "^5.1.6",
-    "vite": "^4.3.9"
+    "vite": "^4.3.9",
+    "vite-plugin-externalize-deps": "^0.8.0"
   }
 }
