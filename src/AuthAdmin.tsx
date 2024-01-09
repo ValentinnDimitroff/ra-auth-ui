@@ -33,9 +33,11 @@ export const AuthAdmin: FC<AuthAdminProps> = ({
     return (
         <Admin loginPage={false} {...rest}>
             <CustomRoutes noLayout>
-                {authRoutes.map(({ path, Component }) => (
-                    <Route key={path} path={path} element={<Component />} />
-                ))}
+                <>
+                    {authRoutes.map(({ path, Component }) => (
+                        <Route key={path} path={path} element={<Component />} />
+                    ))}
+                </>
             </CustomRoutes>
             {children}
         </Admin>
