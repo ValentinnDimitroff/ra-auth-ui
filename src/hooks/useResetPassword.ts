@@ -7,8 +7,8 @@ export const useResetPassword = () => {
     const authProvider = useAuthProvider()
 
     const resetPassword = useCallback(
-        (values, pathToRedirect) =>
-            authProvider.resetPassword(values).then((response) => {
+        (values: Record<string, unknown>, pathToRedirect: string) =>
+            authProvider.resetPassword(values).then((response: Response) => {
                 if (response.ok && response.status === 200) {
                     navigate(pathToRedirect)
                 }

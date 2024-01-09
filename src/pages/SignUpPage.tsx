@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useNotify } from 'react-admin'
 import { Link } from 'react-router-dom'
@@ -20,7 +20,22 @@ const styles = {
     },
 }
 
-export const SignUpPage = ({ color, buttonText, onSuccessRedirect, ...props }) => {
+type Props = {
+    color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+    buttonText?: string
+    signUpRoute?: string
+    onSuccessRedirect?: string
+    title?: string
+    copyrights?: React.ReactNode
+}
+
+export const SignUpPage: FC<Props> = ({
+    color = 'primary',
+    buttonText = 'Sign Up',
+    title = 'Sign Up',
+    onSuccessRedirect = LOGIN_ROUTE,
+    ...props
+}) => {
     const notify = useNotify()
     const signUp = useSignUp()
 
@@ -29,9 +44,9 @@ export const SignUpPage = ({ color, buttonText, onSuccessRedirect, ...props }) =
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState<Record<string, string[]> | undefined>({})
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
         signUp(
@@ -43,14 +58,14 @@ export const SignUpPage = ({ color, buttonText, onSuccessRedirect, ...props }) =
                 confirmPassword,
             },
             onSuccessRedirect
-        ).catch((err) => {
+        ).catch((err: any) => {
             setErrors(err.errors)
             notify('Unsuccessful submission!')
         })
     }
 
     return (
-        <AuthScreenBaseLayout {...props}>
+        <AuthScreenBaseLayout title={title} {...props}>
             <ul>
                 {errors &&
                     Object.keys(errors).map((key) =>
@@ -63,7 +78,7 @@ export const SignUpPage = ({ color, buttonText, onSuccessRedirect, ...props }) =
                         ))
                     )}
             </ul>
-            <form sx={styles.form} method="post" onSubmit={onSubmit}>
+            <form method="post" onSubmit={onSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                         <TextField
@@ -149,29 +164,12 @@ export const SignUpPage = ({ color, buttonText, onSuccessRedirect, ...props }) =
                 >
                     {buttonText}
                 </Button>
-                <Grid container justify="flex-end">
+                <Grid container justifyContent="flex-end">
                     <Grid item>
-                        <Link to="/login" variant="body2">
-                            Already have an account? Sign in
-                        </Link>
+                        <Link to="/login">Already have an account? Sign in</Link>
                     </Grid>
                 </Grid>
             </form>
         </AuthScreenBaseLayout>
     )
-}
-
-SignUpPage.defaultProps = {
-    title: 'Sign Up',
-    color: 'primary',
-    buttonText: 'Sign Up',
-    onSuccessRedirect: LOGIN_ROUTE,
-}
-
-SignUpPage.propTypes = {
-    title: PropTypes.string,
-    color: PropTypes.string,
-    buttonText: PropTypes.string,
-    onSuccessRedirect: PropTypes.string,
-    authProvider: PropTypes.object,
 }

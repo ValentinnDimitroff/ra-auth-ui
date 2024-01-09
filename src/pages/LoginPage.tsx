@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { FC, useState } from 'react'
 import { useLogin, useNotify } from 'react-admin'
 import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
@@ -21,12 +20,26 @@ const styles = {
     },
 }
 
-export const LoginPage = ({
-    color,
-    buttonText,
-    signUpRoute,
-    forgotPasswordRoute,
-    onSuccessRedirect,
+type Props = {
+    color?: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+    buttonText?: string
+    signUpRoute?: string
+    successMessage?: React.ReactNode
+    failureMessage?: React.ReactNode
+    title?: string
+    copyrights?: React.ReactNode
+    forgotPasswordRoute?: string
+    onSuccessRedirect?: string
+    onLoginErrorText?: string
+}
+
+export const LoginPage: FC<Props> = ({
+    title = 'Login',
+    color = 'primary',
+    buttonText = 'Login',
+    signUpRoute = SIGN_UP_ROUTE,
+    forgotPasswordRoute = FORGOT_PASSWORD_ROUTE,
+    onSuccessRedirect = '/',
     onLoginErrorText = 'Invalid email or password',
     ...props
 }) => {
@@ -36,15 +49,15 @@ export const LoginPage = ({
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         login({ email, password }, onSuccessRedirect).catch(() => {
-            notify(onLoginErrorText, 'error')
+            notify(onLoginErrorText, { type: 'error' })
         })
     }
 
     return (
-        <AuthScreenBaseLayout {...props}>
+        <AuthScreenBaseLayout title={title} {...props}>
             <Box sx={styles.form}>
                 <form method="post" onSubmit={onSubmit}>
                     <TextField
@@ -88,39 +101,14 @@ export const LoginPage = ({
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link to={forgotPasswordRoute} variant="body2">
-                                Forgot password?
-                            </Link>
+                            <Link to={forgotPasswordRoute}>Forgot password?</Link>
                         </Grid>
                         <Grid item>
-                            <Link to={signUpRoute} variant="body2">
-                                {" Don't have an account? Sign Up"}
-                            </Link>
+                            <Link to={signUpRoute}>{" Don't have an account? Sign Up"}</Link>
                         </Grid>
                     </Grid>
                 </form>
             </Box>
         </AuthScreenBaseLayout>
     )
-}
-
-LoginPage.defaultProps = {
-    title: 'Login',
-    color: 'primary',
-    buttonText: 'Login',
-    signUpRoute: SIGN_UP_ROUTE,
-    forgotPasswordRoute: FORGOT_PASSWORD_ROUTE,
-    onSuccessRedirect: '/',
-}
-
-LoginPage.propTypes = {
-    theme: PropTypes.object,
-    title: PropTypes.string,
-    color: PropTypes.string,
-    buttonText: PropTypes.string,
-    copyrights: PropTypes.node,
-    signUpRoute: PropTypes.string,
-    forgotPasswordRoute: PropTypes.string,
-    onSuccessRedirect: PropTypes.string,
-    onLoginErrorText: PropTypes.string,
 }

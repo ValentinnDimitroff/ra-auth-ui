@@ -6,7 +6,7 @@ import {
 } from './constants/defaultRoutes'
 import { ForgotPasswordPage, LoginPage, ResetPasswordPage, SignUpPage } from './pages'
 
-export const defaultAuthRoutes = [
+export const defaultAuthRoutes: { path: string; Component: React.FC }[] = [
     {
         path: LOGIN_ROUTE,
         Component: LoginPage,

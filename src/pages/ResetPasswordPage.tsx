@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { FC, useState } from 'react'
 import { useNotify } from 'react-admin'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -35,16 +34,29 @@ function getUrlParams() {
     return [token, uid]
 }
 
-export const ResetPasswordPage = ({ color, buttonText, onSuccessRedirect, ...props }) => {
+type Props = {
+    title?: string
+    color?: 'primary' | 'secondary'
+    buttonText?: string
+    onSuccessRedirect?: string
+}
+
+export const ResetPasswordPage: FC<Props> = ({
+    title = 'Reset Password',
+    color = 'primary',
+    buttonText = 'Submit',
+    onSuccessRedirect = '/signin',
+    ...props
+}) => {
     const notify = useNotify()
     const resetPassword = useResetPassword()
 
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState<Record<string, string[]> | undefined>({})
     const [token, email] = getUrlParams()
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
         resetPassword(
@@ -57,18 +69,18 @@ export const ResetPasswordPage = ({ color, buttonText, onSuccessRedirect, ...pro
             onSuccessRedirect
         )
             .then(() => notify('Success! Your Password has been changed!'))
-            .catch((err) => {
+            .catch((err: any) => {
                 setErrors(err.errors)
                 notify('Unsuccessful submission!')
             })
     }
 
     return (
-        <AuthScreenBaseLayout {...props}>
+        <AuthScreenBaseLayout title={title} {...props}>
             <ul>
                 {errors &&
                     Object.keys(errors).map((key) =>
-                        errors[key].map((x) => (
+                        errors[key].map((x: string) => (
                             <li>
                                 <Typography variant="body2" color="error">
                                     {`${key}: ${x}`}
@@ -77,7 +89,7 @@ export const ResetPasswordPage = ({ color, buttonText, onSuccessRedirect, ...pro
                         ))
                     )}
             </ul>
-            <form sx={styles.form} method="post" onSubmit={onSubmit}>
+            <form method="post" onSubmit={onSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <TextField
@@ -120,19 +132,4 @@ export const ResetPasswordPage = ({ color, buttonText, onSuccessRedirect, ...pro
             </form>
         </AuthScreenBaseLayout>
     )
-}
-
-ResetPasswordPage.defaultProps = {
-    title: 'Reset Password',
-    color: 'primary',
-    buttonText: 'Submit',
-    onSuccessRedirect: '/signin',
-}
-
-ResetPasswordPage.propTypes = {
-    title: PropTypes.string,
-    color: PropTypes.string,
-    buttonText: PropTypes.string,
-    onSuccessRedirect: PropTypes.string,
-    authProvider: PropTypes.object,
 }

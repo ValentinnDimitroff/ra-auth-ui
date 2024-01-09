@@ -10,10 +10,10 @@ export const useSignUp = () => {
     const authProvider = useAuthProvider()
 
     const singUp = useCallback(
-        (params, pathName = '/') =>
-            authProvider.signUp(params).then((ret) => {
+        (params: Record<string, unknown>, pathName = '/') =>
+            authProvider.signUp(params).then((res: Response) => {
                 navigate(nextPathName || pathName)
-                return ret
+                return res
             }),
         [authProvider, navigate, nextPathName]
     )

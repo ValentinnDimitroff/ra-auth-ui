@@ -1,14 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { FC } from 'react'
 // import { createTheme } from '@mui/material/styles'
-import { Admin, CustomRoutes } from 'react-admin'
+import { Admin, AdminProps, CustomRoutes } from 'react-admin'
 import { Route } from 'react-router-dom'
 // import { PROFILE_ROUTE } from './constants/defaultRoutes'
 // import { ProfilePage } from './pages'
 import { defaultAuthRoutes } from './utils'
 
-export const AuthAdmin = ({
-    authLayout,
+export type AuthAdminProps = AdminProps & {
+    authRoutes?: { path: string; Component: FC }[]
+    children: React.ReactNode
+}
+
+export const AuthAdmin: FC<AuthAdminProps> = ({
+    // authLayout,
     authRoutes = defaultAuthRoutes,
     // profilePage = <ProfilePage />,
     // react-admin props
@@ -25,26 +29,15 @@ export const AuthAdmin = ({
     // if (profilePage) {
     //     customRoutes.push(<Route exact path={PROFILE_ROUTE} element={<profilePage />} />)
     // }
-    console.log('render 2', { rest })
 
     return (
         <Admin loginPage={false} {...rest}>
-            {/* <CustomRoutes noLayout>
+            <CustomRoutes noLayout>
                 {authRoutes.map(({ path, Component }) => (
-                    <Route key={path} exact path={path} element={<Component />} />
+                    <Route key={path} path={path} element={<Component />} />
                 ))}
-            </CustomRoutes> */}
+            </CustomRoutes>
             {children}
         </Admin>
     )
-}
-
-AuthAdmin.propTypes = {
-    authRoutes: PropTypes.array,
-    authLayout: PropTypes.object,
-    layout: PropTypes.node,
-    menu: PropTypes.node,
-    userMenu: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-    profilePage: PropTypes.node,
-    children: PropTypes.node,
 }

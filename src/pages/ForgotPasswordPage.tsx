@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNotify } from 'react-admin'
-import Button from '@mui/material/Button'
+import Button, { ButtonPropsColorOverrides } from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
@@ -16,10 +15,21 @@ const styles = {
     },
 }
 
-export const ForgotPasswordPage = ({
-    color,
-    buttonText,
-    signUpRoute,
+type Props = {
+    color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+    buttonText?: string
+    signUpRoute?: string
+    successMessage?: React.ReactNode
+    failureMessage?: React.ReactNode
+    title?: string
+    copyrights?: React.ReactNode
+}
+
+export const ForgotPasswordPage: FC<Props> = ({
+    title = 'Forgot your password?',
+    color = 'primary',
+    buttonText = 'Resset Password',
+    signUpRoute = SIGN_UP_ROUTE,
     successMessage = <SuccessMessage />,
     failureMessage = <FailureMessage />,
     ...props
@@ -27,31 +37,31 @@ export const ForgotPasswordPage = ({
     const notify = useNotify()
     const forgotPassword = useForgotPassword()
     const [email, setEmail] = useState('')
-    const [errors, setErrors] = useState()
+    const [errors, setErrors] = useState<Record<string, string[]> | undefined>()
     const [success, setSuccess] = useState(false)
     const [submitted, setSubmitted] = useState(false)
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         setSubmitted(true)
 
         forgotPassword(email)
             .then(() => {
-                notify('Submission successful!', 'success')
+                notify('Submission successful!', { type: 'success' })
                 setSuccess(true)
             })
-            .catch((err) => {
+            .catch((err: any) => {
                 setErrors(err.errors)
-                notify('Unsuccessful submission!', 'error')
+                notify('Unsuccessful submission!', { type: 'error' })
             })
     }
 
     return (
-        <AuthScreenBaseLayout {...props}>
+        <AuthScreenBaseLayout title={title} {...props}>
             <ul>
                 {errors &&
                     Object.keys(errors).map((key) =>
-                        errors[key].map((x) => (
+                        errors[key].map((x: string) => (
                             <li key={x}>
                                 <Typography variant="body2" color="error">
                                     {`${key}: ${x}`}
@@ -92,11 +102,9 @@ export const ForgotPasswordPage = ({
                     >
                         {buttonText}
                     </Button>
-                    <Grid container justify="flex-end">
+                    <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link to={signUpRoute} variant="body2">
-                                Don&apos;t have an account? Sign Up
-                            </Link>
+                            <Link to={signUpRoute}>Don&apos;t have an account? Sign Up</Link>
                         </Grid>
                     </Grid>
                 </form>
@@ -105,23 +113,6 @@ export const ForgotPasswordPage = ({
             {success && successMessage}
         </AuthScreenBaseLayout>
     )
-}
-
-ForgotPasswordPage.defaultProps = {
-    title: 'Forgot your password?',
-    color: 'primary',
-    buttonText: 'Resset Password',
-    signUpRoute: SIGN_UP_ROUTE,
-}
-
-ForgotPasswordPage.propTypes = {
-    title: PropTypes.string,
-    color: PropTypes.string,
-    buttonText: PropTypes.string,
-    signUpRoute: PropTypes.string,
-    successMessage: PropTypes.node,
-    failureMessage: PropTypes.node,
-    authProvider: PropTypes.object,
 }
 
 const SuccessMessage = () => (

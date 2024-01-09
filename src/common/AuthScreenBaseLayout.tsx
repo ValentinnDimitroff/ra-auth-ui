@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { FC } from 'react'
 // import { ThemeProvider } from '@mui/material/styles'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -17,12 +16,18 @@ const styles = {
     },
     avatar: {
         margin: 1,
-        backgroundColor: 'secondary.dark',
-        color: 'red',
+        backgroundColor: 'secondary.light',
+        color: 'primary',
     },
 }
 
-const AuthScreenBaseLayout = ({ title, copyrights, children }) => (
+type Props = {
+    title: string
+    copyrights?: React.ReactNode
+    children: React.ReactNode
+}
+
+const AuthScreenBaseLayout: FC<Props> = ({ title, copyrights, children }) => (
     // <ThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -39,11 +44,5 @@ const AuthScreenBaseLayout = ({ title, copyrights, children }) => (
     </Container>
     // </ThemeProvider>
 )
-
-AuthScreenBaseLayout.propTypes = {
-    title: PropTypes.string,
-    children: PropTypes.any,
-    copyrights: PropTypes.node,
-}
 
 export default AuthScreenBaseLayout
