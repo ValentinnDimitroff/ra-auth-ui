@@ -23,8 +23,4 @@ export default defineConfig({
       "ra-auth-ui": path.resolve(__dirname, "../../src"),
     },
   },
-  optimizeDeps: {
-    disabled: false,
-    include: ["ra-auth-ui"],
-  },
 });
