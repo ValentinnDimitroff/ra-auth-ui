@@ -1,47 +1,35 @@
-import React, {
-    Children, cloneElement, isValidElement, useState,
-} from 'react';
-import PropTypes from 'prop-types';
-import { useTranslate } from 'react-admin';
-import { makeStyles } from '@material-ui/core/styles';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import {
-    Menu, Button, IconButton, Tooltip,
-} from '@material-ui/core';
+import React, { Children, cloneElement, isValidElement, useState } from 'react'
+import PropTypes from 'prop-types'
+import { useTranslate } from 'react-admin'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { Menu, Button, IconButton, Tooltip } from '@mui/material'
 
-const MENU_ID = 'user-menu';
+const MENU_ID = 'user-menu'
 
-const useStyles = makeStyles({
+const styles = {
     textButton: {
         textTransform: 'none',
     },
-});
+}
 
-const UserMenuBase = ({
-    label,
-    icon,
-    logout,
-    classes: classesOverride,
-    children,
-}) => {
-    const classes = { ...useStyles(), ...classesOverride };
-    const translate = useTranslate();
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
+const UserMenuBase = ({ label, icon, logout, children }) => {
+    const translate = useTranslate()
+    const [anchorEl, setAnchorEl] = useState(null)
+    const open = Boolean(anchorEl)
 
     if (!logout && !children) {
-        return null;
+        return null
     }
 
-    const onMenuClick = (event) => setAnchorEl(event.currentTarget);
-    const onMenuClose = () => setAnchorEl(null);
+    const onMenuClick = (event) => setAnchorEl(event.currentTarget)
+    const onMenuClose = () => setAnchorEl(null)
 
     return (
-        <div className={classes.root}>
+        <div>
             {label ? (
                 <Button
                     aria-label={label && translate(label, { _: label })}
-                    className={classes.textButton}
+                    sx={styles.textButton}
                     aria-owns={open ? MENU_ID : null}
                     color="inherit"
                     startIcon={icon}
@@ -55,7 +43,6 @@ const UserMenuBase = ({
                         aria-label={label}
                         aria-owns={open ? MENU_ID : null}
                         aria-haspopup
-                        className={classes.iconButton}
                         color="inherit"
                         onClick={onMenuClick}
                     >
@@ -77,19 +64,18 @@ const UserMenuBase = ({
                 open={open}
                 onClose={onMenuClose}
             >
-                {Children.map(children, (menuItem) => (isValidElement(menuItem)
-                    ? cloneElement(
-                        menuItem,
-                        {
-                            onClick: onMenuClose,
-                        },
-                    )
-                    : null))}
+                {Children.map(children, (menuItem) =>
+                    isValidElement(menuItem)
+                        ? cloneElement(menuItem, {
+                              onClick: onMenuClose,
+                          })
+                        : null
+                )}
                 {logout}
             </Menu>
         </div>
-    );
-};
+    )
+}
 
 UserMenuBase.propTypes = {
     classes: PropTypes.object,
@@ -97,10 +83,10 @@ UserMenuBase.propTypes = {
     label: PropTypes.string,
     logout: PropTypes.element,
     icon: PropTypes.node,
-};
+}
 
 UserMenuBase.defaultProps = {
     icon: <AccountCircleIcon />,
-};
+}
 
-export default UserMenuBase;
+export default UserMenuBase

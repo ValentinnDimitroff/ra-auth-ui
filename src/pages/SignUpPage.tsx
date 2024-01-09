@@ -1,68 +1,84 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useNotify } from 'react-admin';
-import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { useSignUp } from '../hooks';
-import { AuthScreenBaseLayout } from '../common';
-import { LOGIN_ROUTE } from '../constants/defaultRoutes';
+import React, { FC, useState } from 'react'
+import PropTypes from 'prop-types'
+import { useNotify } from 'react-admin'
+import { Link } from 'react-router-dom'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import { useSignUp } from '../hooks'
+import { AuthScreenBaseLayout } from '../common'
+import { LOGIN_ROUTE } from '../constants/defaultRoutes'
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
+        marginTop: 3,
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        margin: [3, 0, 2],
     },
-}));
+}
 
-export const SignUpPage = ({
-    color,
-    buttonText,
-    onSuccessRedirect,
+type Props = {
+    color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+    buttonText?: string
+    signUpRoute?: string
+    onSuccessRedirect?: string
+    title?: string
+    copyrights?: React.ReactNode
+}
+
+export const SignUpPage: FC<Props> = ({
+    color = 'primary',
+    buttonText = 'Sign Up',
+    title = 'Sign Up',
+    onSuccessRedirect = LOGIN_ROUTE,
     ...props
 }) => {
-    const classes = useStyles();
-    const notify = useNotify();
-    const signUp = useSignUp();
+    const notify = useNotify()
+    const signUp = useSignUp()
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [errors, setErrors] = useState({});
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [errors, setErrors] = useState<Record<string, string[]> | undefined>({})
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
 
-        signUp({
-            firstName, lastName, email, password, confirmPassword,
-        }, onSuccessRedirect)
-            .catch((err) => {
-                setErrors(err.errors);
-                notify('Unsuccessful submission!');
-            });
-    };
+        signUp(
+            {
+                firstName,
+                lastName,
+                email,
+                password,
+                confirmPassword,
+            },
+            onSuccessRedirect
+        ).catch((err: any) => {
+            setErrors(err.errors)
+            notify('Unsuccessful submission!')
+        })
+    }
 
     return (
-        <AuthScreenBaseLayout {...props}>
+        <AuthScreenBaseLayout title={title} {...props}>
             <ul>
-                {errors
-                    && Object.keys(errors).map((key) => errors[key].map((x) => (
-                        <li>
-                            <Typography variant="body2" color="error">
-                                {`${key}: ${x}`}
-                            </Typography>
-                        </li>
-                    )))}
+                {errors &&
+                    Object.keys(errors).map((key) =>
+                        errors[key].map((x) => (
+                            <li>
+                                <Typography variant="body2" color="error">
+                                    {`${key}: ${x}`}
+                                </Typography>
+                            </li>
+                        ))
+                    )}
             </ul>
-            <form className={classes.form} method="post" onSubmit={onSubmit}>
+            <form method="post" onSubmit={onSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                         <TextField
@@ -144,33 +160,16 @@ export const SignUpPage = ({
                     fullWidth
                     variant="contained"
                     color={color}
-                    className={classes.submit}
+                    sx={styles.submit}
                 >
                     {buttonText}
                 </Button>
-                <Grid container justify="flex-end">
+                <Grid container justifyContent="flex-end">
                     <Grid item>
-                        <Link to="/login" variant="body2">
-                            Already have an account? Sign in
-                        </Link>
+                        <Link to="/login">Already have an account? Sign in</Link>
                     </Grid>
                 </Grid>
             </form>
         </AuthScreenBaseLayout>
-    );
-};
-
-SignUpPage.defaultProps = {
-    title: 'Sign Up',
-    color: 'primary',
-    buttonText: 'Sign Up',
-    onSuccessRedirect: LOGIN_ROUTE,
-};
-
-SignUpPage.propTypes = {
-    title: PropTypes.string,
-    color: PropTypes.string,
-    buttonText: PropTypes.string,
-    onSuccessRedirect: PropTypes.string,
-    authProvider: PropTypes.object,
-};
+    )
+}

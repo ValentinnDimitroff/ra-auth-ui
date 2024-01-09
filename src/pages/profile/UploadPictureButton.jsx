@@ -1,53 +1,45 @@
-import React, { forwardRef, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { useNotify, useTranslate } from 'react-admin';
-import Button from '@material-ui/core/Button';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import React, { forwardRef, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { useNotify, useTranslate } from 'react-admin'
+import Button from '@mui/material/Button'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 
 const raTransformFileOnUpload = (file) => {
     if (!(file instanceof File)) {
-        return file;
+        return file
     }
 
-    const preview = URL.createObjectURL(file);
+    const preview = URL.createObjectURL(file)
     const transformedFile = {
         rawFile: file,
         url: preview,
         title: file.name,
-    };
+    }
 
-    return transformedFile;
-};
+    return transformedFile
+}
 
-const UploadPictureButton = forwardRef((
-    {
-        className,
-        icon,
-        label,
-        onUpload,
-    },
-    ref,
-) => {
-    const notify = useNotify();
-    const translate = useTranslate();
+const UploadPictureButton = forwardRef(({ className, icon, label, onUpload }, ref) => {
+    const notify = useNotify()
+    const translate = useTranslate()
 
     const onPictureUpload = (e) => {
-        const files = Array.from(e.target.files);
-        const types = ['image/png', 'image/jpeg', 'image/gif'];
-        const file = files[0];
+        const files = Array.from(e.target.files)
+        const types = ['image/png', 'image/jpeg', 'image/gif']
+        const file = files[0]
 
         if (types.every((type) => file.type !== type)) {
-            notify(`'${file.type}' file type is not a supported format`, 'warning');
-            return;
+            notify(`'${file.type}' file type is not a supported format`, 'warning')
+            return
         }
 
         if (file.size > 150000) {
-            notify('File is too large, please pick a smaller file (limit 15mb)', 'warning');
-            return;
+            notify('File is too large, please pick a smaller file (limit 15mb)', 'warning')
+            return
         }
 
-        onUpload(raTransformFileOnUpload(file));
-    };
+        onUpload(raTransformFileOnUpload(file))
+    }
 
     return (
         <>
@@ -71,20 +63,20 @@ const UploadPictureButton = forwardRef((
                 </Button>
             </label>
         </>
-    );
-});
+    )
+})
 
 UploadPictureButton.defaultProps = {
     icon: <CloudUploadIcon />,
     label: 'Upload picture',
-    onUpload: () => { },
-};
+    onUpload: () => {},
+}
 
 UploadPictureButton.propTypes = {
     className: PropTypes.string,
     icon: PropTypes.element,
     label: PropTypes.string,
     onUpload: PropTypes.func,
-};
+}
 
-export default UploadPictureButton;
+export default UploadPictureButton

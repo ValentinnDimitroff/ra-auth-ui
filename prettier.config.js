@@ -11,4 +11,4 @@ module.exports = {
     rangeStart: 0,
     rangeEnd: Infinity,
     useTabs: false,
-};
+}
