@@ -7,94 +7,94 @@ name: Publish and Release
 #   release:
 #     types: [published]
 
-on: 
-  push:
-    branches:
-      - main
+on:
+    push:
+        branches:
+            - main
 
-# Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-      # - run: npm ci
-      - run: yarn install
-      - run: yarn build
-      - run: yarn test --passWithNoTests
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: 18.15.0
+            # - run: npm ci
+            - run: yarn install
+            - run: yarn build
+            - run: yarn test --passWithNoTests
 
-  bump-version:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org/
-        # - name: Test
-        # run: echo  ${{ toJson(github.event) }}
-      - name: Check for minor label and assign release
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'minor')}}
-        run: echo "release_type=minor" >> "$GITHUB_ENV"
-      - name: Check for major label and assign release
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'major')}}
-        run: echo "release_type=major" >> "$GITHUB_ENV"
-      - name: Assign patch release
-        if: ${{ !env.release_type }}
-        run: echo "release_type=patch" >> "$GITHUB_ENV"
-        # run: |
-        #   if [[ github.event.label.name == 'release:minor' ]]; then
-        #       echo "release_type=minor" >> "$GITHUB_ENV"
-        #   else if [[ github.event.label.name == 'release:major' ]]; then
-        #       echo "release_type=major" >> "$GITHUB_ENV"
-        #   else 
-        #       echo "release_type=patch" >> "$GITHUB_ENV"
-        #   fi
-      - name: Setup GIT
-        run: |
-          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git config --global user.name "$GITHUB_ACTOR"
-      - name: Bump version
-        run: |
-          yarn install
-          yarn --no-git-tag-version version --${{ env.release_type }} -m "Auto bump version to %s"
-          yarn publish
-          git commit -a -m "Auto bump version"
-          git push https://${{secrets.GITHUB_TOKEN}}@github.com/$GITHUB_REPOSITORY $GITHUB_REF_NAME
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-          
-  publish-gpr:
-    needs: bump-version
-    runs-on: ubuntu-latest
-    permissions: 
-      contents: read
-      repository-projects: write 
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-          registry-url: https://npm.pkg.github.com/
-      # - run: npm ci
-      - run: yarn install
-      - run: yarn build
-      - run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    bump-version:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 18.15.0
+                  registry-url: https://registry.npmjs.org/
+              # - name: Test
+              # run: echo  ${{ toJson(github.event) }}
+            - name: Check for minor label and assign release
+              if: ${{ contains(github.event.pull_request.labels.*.name, 'minor')}}
+              run: echo "release_type=minor" >> "$GITHUB_ENV"
+            - name: Check for major label and assign release
+              if: ${{ contains(github.event.pull_request.labels.*.name, 'major')}}
+              run: echo "release_type=major" >> "$GITHUB_ENV"
+            - name: Assign patch release
+              if: ${{ !env.release_type }}
+              run: echo "release_type=patch" >> "$GITHUB_ENV"
+              # run: |
+              #   if [[ github.event.label.name == 'release:minor' ]]; then
+              #       echo "release_type=minor" >> "$GITHUB_ENV"
+              #   else if [[ github.event.label.name == 'release:major' ]]; then
+              #       echo "release_type=major" >> "$GITHUB_ENV"
+              #   else
+              #       echo "release_type=patch" >> "$GITHUB_ENV"
+              #   fi
+            - name: Setup GIT
+              run: |
+                  git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+                  git config --global user.name "$GITHUB_ACTOR"
+            - name: Bump version
+              run: |
+                  yarn install
+                  yarn --no-git-tag-version version --${{ env.release_type }} -m "Auto bump version to %s"
+                  yarn publish
+                  git commit -a -m "Auto bump version"
+                  git push https://${{secrets.GITHUB_TOKEN}}@github.com/$GITHUB_REPOSITORY $GITHUB_REF_NAME
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.npm_token}}
 
-  release-gh:
-    needs:  publish-gpr
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_ACC_TOKEN }}
-    steps:
-      - uses: rymndhng/release-on-push-action@master
-        with:
-          bump_version_scheme: patch
+    publish-gpr:
+        needs: bump-version
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            repository-projects: write
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: 18.15.0
+                  registry-url: https://npm.pkg.github.com/
+            # - run: npm ci
+            - run: yarn install
+            - run: yarn build
+            - run: yarn publish
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    release-gh:
+        needs: publish-gpr
+        runs-on: ubuntu-latest
+        env:
+            GITHUB_TOKEN: ${{ secrets.GH_ACC_TOKEN }}
+        steps:
+            - uses: rymndhng/release-on-push-action@master
+              with:
+                  bump_version_scheme: patch
