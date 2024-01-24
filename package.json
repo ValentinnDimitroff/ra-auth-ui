@@ -8,7 +8,8 @@
         "dist"
     ],
     "dependencies": {
-        "prop-types": "^15.7.2"
+        "prop-types": "^15.7.2",
+        "vite": "^5.0.12"
     },
     "peerDependencies": {
         "@mui/icons-material": "^5.0.1",
@@ -43,8 +44,7 @@
         "react-hook-form": "^7.49.2",
         "react-router-dom": "^6.21.1",
         "rimraf": "^5.0.5",
-        "typescript": "^5.3.3",
-        "vite": "^5.0.11"
+        "typescript": "^5.3.3"
     },
     "jest": {
         "testPathIgnorePatterns": [
