@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react'
-import PropTypes from 'prop-types'
 import { useNotify } from 'react-admin'
 import { Link } from 'react-router-dom'
 import Button from '@mui/material/Button'
