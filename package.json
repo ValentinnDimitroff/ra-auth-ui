@@ -1,6 +1,7 @@
 {
     "name": "ra-auth-ui",
     "version": "1.0.5",
+    "type": "module",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
     "types": "dist/index.d.ts",
@@ -29,6 +30,7 @@
         "@mui/material": "^5.15.2",
         "@testing-library/jest-dom": "^5.11.5",
         "@testing-library/react": "^11.1.1",
+        "@vitejs/plugin-react": "^4.2.1",
         "babel-jest": "^26.6.3",
         "eslint": "^7.18.0",
         "eslint-config-airbnb": "^18.2.1",

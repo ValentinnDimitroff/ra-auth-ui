@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import pkg from './package.json'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
     build: {
@@ -14,4 +15,5 @@ export default defineConfig({
             external: [...Object.keys(pkg.peerDependencies || {}), 'react/jsx-runtime'],
         },
     },
+    plugins: [react()],
 })
