@@ -31,9 +31,11 @@ yarn add ra-auth-ui
 Run the Demo
 
 ```sh
-npm run start-demo
-#or
-yarn start-demo
+yarn install 
+cd ./examples/demo
+yarn install
+yarn dev
+
 ```
 
 # Available Props
