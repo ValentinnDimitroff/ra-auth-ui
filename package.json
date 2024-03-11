@@ -9,6 +9,7 @@
     ],
     "dependencies": {
         "prop-types": "^15.7.2",
+        "react-google-recaptcha": "^3.1.0",
         "vite": "^5.0.12"
     },
     "peerDependencies": {

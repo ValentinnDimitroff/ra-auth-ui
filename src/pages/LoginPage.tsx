@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { useLogin, useNotify } from 'react-admin'
 import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
@@ -9,6 +9,8 @@ import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { FORGOT_PASSWORD_ROUTE, SIGN_UP_ROUTE } from '../constants/defaultRoutes'
 import { AuthScreenBaseLayout } from '../common'
+import ReCAPTCHA from 'react-google-recaptcha'
+import { useCaptcha } from '../hooks/useCaptcha'
 
 const styles = {
     form: {
@@ -17,6 +19,9 @@ const styles = {
     },
     submit: {
         marginY: 3,
+    },
+    captcha: {
+        paddingTop: 20,
     },
 }
 
@@ -31,7 +36,11 @@ type Props = {
     forgotPasswordRoute?: string
     onSuccessRedirect?: string
     onLoginErrorText?: string
+    captchaSiteKey: string
+    notCheckedCaptchaError: string
 }
+
+const RECAPTCHA_SITE_KEY = '6LeeL5ApAAAAAOaR0WNORf0uy1Gdzp5O9fZHAgc-'
 
 export const LoginPage: FC<Props> = ({
     title = 'Login',
@@ -41,19 +50,33 @@ export const LoginPage: FC<Props> = ({
     forgotPasswordRoute = FORGOT_PASSWORD_ROUTE,
     onSuccessRedirect = '/',
     onLoginErrorText = 'Invalid email or password',
+    captchaSiteKey = RECAPTCHA_SITE_KEY,
+    notCheckedCaptchaError = 'Please check the reCAPTCHA box to proceed',
     ...props
 }) => {
     const login = useLogin()
     const notify = useNotify()
 
+    const captchaRef = useRef()
+    const { verifyCaptcha } = useCaptcha()
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const onSubmit = (e: React.FormEvent) => {
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        login({ email, password }, onSuccessRedirect).catch(() => {
-            notify(onLoginErrorText, { type: 'error' })
-        })
+        if (captchaRef?.current.getValue() != '') {
+            try {
+                await verifyCaptcha(captchaRef)
+            } catch (error) {
+                notify(error.message, { type: 'error' })
+            }
+            login({ email, password }, onSuccessRedirect).catch(() => {
+                notify(onLoginErrorText, { type: 'error' })
+            })
+        } else {
+            notify(notCheckedCaptchaError, { type: 'error' })
+        }
     }
 
     return (
@@ -109,6 +132,9 @@ export const LoginPage: FC<Props> = ({
                     </Grid>
                 </form>
             </Box>
+            <div style={styles.captcha}>
+                <ReCAPTCHA sitekey={captchaSiteKey} ref={captchaRef} />
+            </div>
         </AuthScreenBaseLayout>
     )
 }
