@@ -10,7 +10,6 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import { FORGOT_PASSWORD_ROUTE, SIGN_UP_ROUTE } from '../constants/defaultRoutes'
 import { AuthScreenBaseLayout } from '../common'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { useCaptcha } from '../hooks/useCaptcha'
 
 const styles = {
     form: {
@@ -38,9 +37,8 @@ type Props = {
     onLoginErrorText?: string
     captchaSiteKey: string
     notCheckedCaptchaError: string
+    showReCaptcha: boolean
 }
-
-const RECAPTCHA_SITE_KEY = '6LeeL5ApAAAAAOaR0WNORf0uy1Gdzp5O9fZHAgc-'
 
 export const LoginPage: FC<Props> = ({
     title = 'Login',
@@ -50,27 +48,27 @@ export const LoginPage: FC<Props> = ({
     forgotPasswordRoute = FORGOT_PASSWORD_ROUTE,
     onSuccessRedirect = '/',
     onLoginErrorText = 'Invalid email or password',
-    captchaSiteKey = RECAPTCHA_SITE_KEY,
     notCheckedCaptchaError = 'Please check the reCAPTCHA box to proceed',
+    captchaSiteKey,
+    showReCaptcha = true,
     ...props
 }) => {
     const login = useLogin()
     const notify = useNotify()
 
-    const captchaRef = useRef()
-    const { verifyCaptcha } = useCaptcha()
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const [isCaptchaVerified, setIsCaptchaVerified] = useState(false)
+    const captchaRef = useRef()
+
+    const handleVerificationSuccess = () => {
+        setIsCaptchaVerified(true)
+    }
+
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (captchaRef?.current.getValue() != '') {
-            try {
-                await verifyCaptcha(captchaRef)
-            } catch (error) {
-                notify(error.message, { type: 'error' })
-            }
+        if (!showReCaptcha || (showReCaptcha && isCaptchaVerified)) {
             login({ email, password }, onSuccessRedirect).catch(() => {
                 notify(onLoginErrorText, { type: 'error' })
             })
@@ -132,9 +130,15 @@ export const LoginPage: FC<Props> = ({
                     </Grid>
                 </form>
             </Box>
-            <div style={styles.captcha}>
-                <ReCAPTCHA sitekey={captchaSiteKey} ref={captchaRef} />
-            </div>
+            {showReCaptcha && (
+                <div style={styles.captcha}>
+                    <ReCAPTCHA
+                        sitekey={captchaSiteKey}
+                        ref={captchaRef}
+                        onChange={handleVerificationSuccess}
+                    />
+                </div>
+            )}
         </AuthScreenBaseLayout>
     )
 }
