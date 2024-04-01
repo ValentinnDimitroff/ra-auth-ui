@@ -30,12 +30,17 @@ yarn add ra-auth-ui
 
 Run the Demo
 
-```sh
-yarn install 
+Install `nodemodules` in `examples/demo`
+
+```sh 
 cd ./examples/demo
 yarn install
-yarn dev
+```
+Install `nodemodules` in `ra-auth-ui` and execute start
 
+```sh
+yarn install 
+yarn run start-demo
 ```
 
 # Available Props
