@@ -47,9 +47,9 @@ yarn run start-demo
 
 | Name        | Type            | Default   | Description                                                                                           |
 | ----------- | --------------- | --------- | ----------------------------------------------------------------------------------------------------- |
-| authRoutes  | array           | array     | If unset provides ddefault authentication routes and screens.                                         |
+| authRoutes  | array           | array     | If unset provides default authentication routes and screens.                                         |
 | authLayout  | object          | undefined | If set to '{userMenu: true}' provides default UserMenu. If set to object pass on the props to Layout. |
-| profilePage | bool \| element | undefined | If set to 'true' provides default Profile Page layout. You can pass the yout own component.           |
+| profilePage | bool \| element | undefined | If set to 'true' provides default Profile Page layout. You can pass your own component.           |
 
 <br/>
 
