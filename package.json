@@ -62,7 +62,7 @@
         "lint": "eslint",
         "prepare": "yarn build",
         "prettier": "prettier  --config prettier.config.js --write ./src/",
-        "start-demo": "cd examples/demo && yarn start",
+        "start-demo": "cd ./examples/demo && yarn dev",
         "build": "vite build && tsc",
         "build-non-vite": "yarn run build-cjs && yarn run build-esm",
         "build-cjs": "rimraf ./dist/cjs && tsc --outDir dist/cjs",
