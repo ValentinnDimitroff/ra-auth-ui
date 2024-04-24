@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { useLogin, useNotify } from 'react-admin'
 import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { FORGOT_PASSWORD_ROUTE, SIGN_UP_ROUTE } from '../constants/defaultRoutes'
 import { AuthScreenBaseLayout } from '../common'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const styles = {
     form: {
@@ -17,6 +18,9 @@ const styles = {
     },
     submit: {
         marginY: 3,
+    },
+    captcha: {
+        paddingTop: 20,
     },
 }
 
@@ -31,6 +35,9 @@ type Props = {
     forgotPasswordRoute?: string
     onSuccessRedirect?: string
     onLoginErrorText?: string
+    captchaSiteKey: string
+    notCheckedCaptchaError: string
+    showReCaptcha: boolean
 }
 
 export const LoginPage: FC<Props> = ({
@@ -41,6 +48,9 @@ export const LoginPage: FC<Props> = ({
     forgotPasswordRoute = FORGOT_PASSWORD_ROUTE,
     onSuccessRedirect = '/',
     onLoginErrorText = 'Invalid email or password',
+    notCheckedCaptchaError = 'Please check the reCAPTCHA box to proceed',
+    captchaSiteKey,
+    showReCaptcha = true,
     ...props
 }) => {
     const login = useLogin()
@@ -49,11 +59,22 @@ export const LoginPage: FC<Props> = ({
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const onSubmit = (e: React.FormEvent) => {
+    const [isCaptchaVerified, setIsCaptchaVerified] = useState(false)
+    const captchaRef = useRef()
+
+    const handleVerificationSuccess = () => {
+        setIsCaptchaVerified(true)
+    }
+
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        login({ email, password }, onSuccessRedirect).catch(() => {
-            notify(onLoginErrorText, { type: 'error' })
-        })
+        if (!showReCaptcha || (showReCaptcha && isCaptchaVerified)) {
+            login({ email, password }, onSuccessRedirect).catch(() => {
+                notify(onLoginErrorText, { type: 'error' })
+            })
+        } else {
+            notify(notCheckedCaptchaError, { type: 'error' })
+        }
     }
 
     return (
@@ -109,6 +130,15 @@ export const LoginPage: FC<Props> = ({
                     </Grid>
                 </form>
             </Box>
+            {showReCaptcha && (
+                <div style={styles.captcha}>
+                    <ReCAPTCHA
+                        sitekey={captchaSiteKey}
+                        ref={captchaRef}
+                        onChange={handleVerificationSuccess}
+                    />
+                </div>
+            )}
         </AuthScreenBaseLayout>
     )
 }
