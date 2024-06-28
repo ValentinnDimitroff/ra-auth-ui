@@ -7,11 +7,13 @@ import {
 } from "react-admin";
 import { dataProvider } from "./dataProvider";
 import { authProvider } from "./authProvider";
-import { AuthAdmin } from "ra-auth-ui";
+// import { AuthAdmin } from "ra-auth-ui";
+import { AuthAdmin } from "../../../src/AuthAdmin";
 
 export const App = () => {
   return (
     <AuthAdmin
+      authOptions={{ userMenuItems: [] }}
       dataProvider={dataProvider}
       authProvider={authProvider}
       theme={defaultTheme}

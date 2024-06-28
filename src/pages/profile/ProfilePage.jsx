@@ -54,5 +54,3 @@ ProfilePage.propTypes = {
     onPictureUpload: PropTypes.func,
     onSubmit: PropTypes.func,
 }
-
-export default ProfilePage
