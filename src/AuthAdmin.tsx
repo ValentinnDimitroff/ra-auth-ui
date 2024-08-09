@@ -18,20 +18,16 @@ export type AuthAdminProps = AdminProps & {
 }
 
 export const AuthAdmin: FC<AuthAdminProps> = ({
-    // authLayout,
     authRoutes = defaultAuthRoutes,
     authOptions = { profilePage: <ProfilePage /> || null, userMenuItems: [] },
-    // profilePage = <ProfilePage />,
     // react-admin props
     children,
     ...rest
 }) => {
+    const finalLayout = rest.layout || AuthLayout
+
     // const { theme } = rest
     // const muiTheme = useMemo(() => createTheme(theme), [theme])
-
-    // TODO - make UserMenu useable separately in custom layout
-    // const finalLayout = (authLayout && AuthLayout) || layout
-    const layout = rest.layout || AuthLayout
 
     // Add user default custom routes
     // if (profilePage) {
@@ -40,7 +36,7 @@ export const AuthAdmin: FC<AuthAdminProps> = ({
 
     return (
         <AuthOptionsContextProvider value={authOptions}>
-            <Admin loginPage={false} layout={layout} {...rest}>
+            <Admin loginPage={false} layout={finalLayout} {...rest}>
                 <CustomRoutes noLayout>
                     {authRoutes.map(({ path, Component }) => (
                         <Route key={path} path={path} element={<Component />} />
