@@ -7,13 +7,21 @@ import {
 } from "react-admin";
 import { dataProvider } from "./dataProvider";
 import { authProvider } from "./authProvider";
-// import { AuthAdmin } from "ra-auth-ui";
 import { AuthAdmin } from "../../../src/AuthAdmin";
+
+//added test menu item
+const Menuitem = ({ name }: String) => {
+  return (
+    <div>
+      <h5>{name}</h5>
+    </div>
+  );
+};
 
 export const App = () => {
   return (
     <AuthAdmin
-      authOptions={{ userMenuItems: [] }}
+      authOptions={{ userMenuItems: [<Menuitem name="test" />] }}
       dataProvider={dataProvider}
       authProvider={authProvider}
       theme={defaultTheme}
