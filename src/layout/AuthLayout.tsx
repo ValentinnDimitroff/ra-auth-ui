@@ -1,15 +1,17 @@
-// import AppBarWithUserMenu from './AppBarWithUserMenu';
-import React from 'react'
 import { Layout } from 'react-admin'
 import { AuthAppBar } from './AuthAppBar'
 
-const AuthLayout = (props) => (
+
+// Added children to display the body
+const AuthLayout = ({ props, children }) => (
     <Layout
         {...props}
         appBar={AuthAppBar}
         // menu={menu}
         // sidebar={sidebar}
-    />
-);
+    >
+        {children}
+    </Layout>
+)
 
 export default AuthLayout
