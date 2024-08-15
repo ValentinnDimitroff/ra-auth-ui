@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { useAuthenticated, useGetIdentity } from 'react-admin'
+// @ts-nocheck
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import CircularProgress from '@mui/material/CircularProgress'
-import ProfileSummaryCard from './ProfileSummaryCard'
+import Grid from '@mui/material/Grid'
+import { useEffect, useState } from 'react'
+import { useAuthenticated, useGetIdentity } from 'react-admin'
 import ProfileDetailsCard from './ProfileDetailsCard'
+import ProfileSummaryCard from './ProfileSummaryCard'
 
 export const ProfilePage = ({ onPictureUpload, onSubmit }) => {
     useAuthenticated()
@@ -48,9 +48,4 @@ export const ProfilePage = ({ onPictureUpload, onSubmit }) => {
             </Grid>
         </Box>
     )
-}
-
-ProfilePage.propTypes = {
-    onPictureUpload: PropTypes.func,
-    onSubmit: PropTypes.func,
 }

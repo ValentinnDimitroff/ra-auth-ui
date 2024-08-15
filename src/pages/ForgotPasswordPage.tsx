@@ -1,13 +1,12 @@
-import React, { FC, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useNotify } from 'react-admin'
-import Button, { ButtonPropsColorOverrides } from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
+import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { useForgotPassword } from '../hooks'
+import React, { FC, useState } from 'react'
+import { useNotify } from 'react-admin'
+import { Link } from 'react-router-dom'
+import { AuthScreenBaseLayout, SubmitButton } from '../common'
 import { SIGN_UP_ROUTE } from '../constants/defaultRoutes'
-import { AuthScreenBaseLayout } from '../common'
+import { useForgotPassword } from '../hooks'
 
 const styles = {
     submit: {
@@ -93,15 +92,7 @@ export const ForgotPasswordPage: FC<Props> = ({
                             />
                         </Grid>
                     </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color={color}
-                        sx={styles.submit}
-                    >
-                        {buttonText}
-                    </Button>
+                    <SubmitButton buttonText={buttonText} color={color} />
                     <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Link to={signUpRoute}>Don&apos;t have an account? Sign Up</Link>

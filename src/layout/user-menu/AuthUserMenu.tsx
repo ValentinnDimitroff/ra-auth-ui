@@ -1,20 +1,14 @@
-import { AuthOptionsContext } from '../../context/AuthOptionsContext'
 import { useContext } from 'react'
-import { Logout } from 'react-admin'
-import { UserMenu } from 'react-admin'
+import { Logout, UserMenu } from 'react-admin'
+import { AuthOptionsContext } from '../../context/AuthOptionsContext'
 
 export const AuthUserMenu = () => {
     const { userMenuItems, profilePage } = useContext(AuthOptionsContext)
 
-    console.log('test')
-
-    console.log(typeof userMenuItems);
-    
-
     return (
         <UserMenu>
             {profilePage}
-            {...userMenuItems}
+            {userMenuItems}
             <Logout />
         </UserMenu>
     )

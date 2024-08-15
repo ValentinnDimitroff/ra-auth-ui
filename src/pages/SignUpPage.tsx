@@ -1,13 +1,12 @@
+import Grid from '@mui/material/Grid'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import React, { FC, useState } from 'react'
 import { useNotify } from 'react-admin'
 import { Link } from 'react-router-dom'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import { useSignUp } from '../hooks'
-import { AuthScreenBaseLayout } from '../common'
+import { AuthScreenBaseLayout, SubmitButton } from '../common'
 import { LOGIN_ROUTE } from '../constants/defaultRoutes'
+import { useSignUp } from '../hooks'
 
 const styles = {
     form: {
@@ -154,15 +153,7 @@ export const SignUpPage: FC<Props> = ({
               />
             </Grid> */}
                 </Grid>
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color={color}
-                    sx={styles.submit}
-                >
-                    {buttonText}
-                </Button>
+                <SubmitButton buttonText={buttonText} color={color} />
                 <Grid container justifyContent="flex-end">
                     <Grid item>
                         <Link to="/login">Already have an account? Sign in</Link>

@@ -2,8 +2,8 @@ import React, { createContext } from 'react'
 import { AuthOptionsContextValue } from './AuthOptionsTypes'
 
 const AuthOptionsContext = createContext<AuthOptionsContextValue>({
-        profilePage: null,
-        userMenuItems: [],
+    profilePage: null,
+    userMenuItems: [],
 })
 
 AuthOptionsContext.displayName = 'AuthOptionsContext'
@@ -13,13 +13,8 @@ type AuthOptionsContextProviderProps = {
     children: React.ReactNode
 }
 
-const AuthOptionsContextProvider = ({
-    value,
-    children,
-}: AuthOptionsContextProviderProps) => {
+const AuthOptionsContextProvider = ({ value, children }: AuthOptionsContextProviderProps) => {
     return <AuthOptionsContext.Provider value={value}>{children}</AuthOptionsContext.Provider>
 }
 
 export { AuthOptionsContext, AuthOptionsContextProvider }
-
-

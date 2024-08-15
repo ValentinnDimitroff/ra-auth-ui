@@ -1,19 +1,16 @@
+import { Box } from '@mui/material'
+import Grid from '@mui/material/Grid'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import React, { FC, useState } from 'react'
 import { useNotify } from 'react-admin'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import { AuthScreenBaseLayout, SubmitButton } from '../common'
 import { useResetPassword } from '../hooks/useResetPassword'
-import { AuthScreenBaseLayout } from '../common'
 
 const styles = {
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: 3,
-    },
-    submit: {
-        margin: [3, 0, 2],
     },
 }
 
@@ -77,59 +74,55 @@ export const ResetPasswordPage: FC<Props> = ({
 
     return (
         <AuthScreenBaseLayout title={title} {...props}>
-            <ul>
-                {errors &&
-                    Object.keys(errors).map((key) =>
-                        errors[key].map((x: string) => (
-                            <li>
-                                <Typography variant="body2" color="error">
-                                    {`${key}: ${x}`}
-                                </Typography>
-                            </li>
-                        ))
-                    )}
-            </ul>
-            <form method="post" onSubmit={onSubmit}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <TextField
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            variant="outlined"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
+            <Box sx={styles.form}>
+                <ul>
+                    {errors &&
+                        Object.keys(errors).map((key) =>
+                            errors[key].map((x: string) => (
+                                <li>
+                                    <Typography variant="body2" color="error">
+                                        {`${key}: ${x}`}
+                                    </Typography>
+                                </li>
+                            ))
+                        )}
+                </ul>
+                <form method="post" onSubmit={onSubmit}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                margin="normal"
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                margin="normal"
+                                name="confirmPassword"
+                                label="Confirm Password"
+                                type="password"
+                                id="confirmPassword"
+                                autoComplete="current-password"
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            variant="outlined"
-                            required
-                            fullWidth
-                            name="confirmPassword"
-                            label="Confirm Password"
-                            type="password"
-                            id="confirmPassword"
-                            autoComplete="current-password"
-                        />
-                    </Grid>
-                </Grid>
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color={color}
-                    sx={styles.submit}
-                >
-                    {buttonText}
-                </Button>
-            </form>
+                    <SubmitButton buttonText={buttonText} color={color} />
+                </form>
+            </Box>
         </AuthScreenBaseLayout>
     )
 }
