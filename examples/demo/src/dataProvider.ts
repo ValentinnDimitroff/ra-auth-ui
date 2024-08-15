@@ -1,4 +1,4 @@
-import fakeRestDataProvider from "ra-data-fakerest";
-import data from "./data.json";
+import fakeRestDataProvider from 'ra-data-fakerest'
+import data from './data.json'
 
-export const dataProvider = fakeRestDataProvider(data, true);
+export const dataProvider = fakeRestDataProvider(data, true)

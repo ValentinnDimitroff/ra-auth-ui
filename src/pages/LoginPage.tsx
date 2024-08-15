@@ -1,14 +1,14 @@
-import React, { FC, useState } from 'react'
-import { useLogin, useNotify } from 'react-admin'
-import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
+import FormControlLabel from '@mui/material/FormControlLabel'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
+import React, { FC, useContext, useState } from 'react'
+import { useLogin, useNotify } from 'react-admin'
+import { Link } from 'react-router-dom'
+import { AuthScreenBaseLayout, SubmitButton } from '../common'
 import { FORGOT_PASSWORD_ROUTE, SIGN_UP_ROUTE } from '../constants/defaultRoutes'
-import { AuthScreenBaseLayout } from '../common'
+import { AuthOptionsContext } from '../context/AuthOptionsContext'
 
 const styles = {
     form: {
@@ -45,13 +45,14 @@ export const LoginPage: FC<Props> = ({
 }) => {
     const login = useLogin()
     const notify = useNotify()
+    const { loginRedirectPath } = useContext(AuthOptionsContext)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        login({ email, password }, onSuccessRedirect).catch(() => {
+        login({ email, password }, loginRedirectPath || onSuccessRedirect).catch(() => {
             notify(onLoginErrorText, { type: 'error' })
         })
     }
@@ -90,15 +91,7 @@ export const LoginPage: FC<Props> = ({
                         control={<Checkbox value="remember" color={color} />}
                         label="Remember me"
                     />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color={color}
-                        sx={styles.submit}
-                    >
-                        {buttonText}
-                    </Button>
+                    <SubmitButton buttonText={buttonText} color={color} />
                     <Grid container>
                         <Grid item xs>
                             <Link to={forgotPasswordRoute}>Forgot password?</Link>
