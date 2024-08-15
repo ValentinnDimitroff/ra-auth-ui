@@ -4,15 +4,14 @@ import { FC } from 'react'
 import { Admin, AdminProps, CustomRoutes } from 'react-admin'
 import { Route } from 'react-router-dom'
 // import { PROFILE_ROUTE } from './constants/defaultRoutes'
-import { AuthOptionsContextProvider } from './context/AuthOptionsContext'
-import { AuthOptionsContextValue } from './context/AuthOptionsTypes'
+import { AuthOptionsContextProvider, AuthOptionsContextType } from './context/AuthOptionsContext'
 import { AuthLayout } from './layout'
 import { ProfilePage } from './pages/profile/ProfilePage'
 import { defaultAuthRoutes } from './utils'
 
 export type AuthAdminProps = AdminProps & {
     authRoutes?: { path: string; Component: FC }[]
-    authOptions?: AuthOptionsContextValue
+    authOptions?: AuthOptionsContextType
 }
 
 export const defaultAuthOptions = { profilePage: <ProfilePage /> || null, userMenuItems: [] }
@@ -32,7 +31,7 @@ export const AuthAdmin: FC<AuthAdminProps> = ({
     // <Route exact path={PROFILE_ROUTE} element={<profilePage />} />
 
     return (
-        <AuthOptionsContextProvider value={authOptions}>
+        <AuthOptionsContextProvider {...authOptions}>
             <Admin loginPage={false} layout={layout} {...rest}>
                 <CustomRoutes noLayout>
                     {authRoutes.map(({ path, Component }) => (

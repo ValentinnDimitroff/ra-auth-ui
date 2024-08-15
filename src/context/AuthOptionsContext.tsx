@@ -1,20 +1,21 @@
-import React, { createContext } from 'react'
-import { AuthOptionsContextValue } from './AuthOptionsTypes'
+import { createContext, FC, PropsWithChildren, ReactNode } from 'react'
 
-const AuthOptionsContext = createContext<AuthOptionsContextValue>({
+export interface AuthOptionsContextType {
+    profilePage?: ReactNode
+    userMenuItems?: ReactNode[]
+    loginRedirectPath?: string
+}
+
+export const AuthOptionsContext = createContext<AuthOptionsContextType>({
     profilePage: null,
     userMenuItems: [],
 })
 
 AuthOptionsContext.displayName = 'AuthOptionsContext'
 
-type AuthOptionsContextProviderProps = {
-    value: AuthOptionsContextValue
-    children: React.ReactNode
+type Props = AuthOptionsContextType & PropsWithChildren
+
+export const AuthOptionsContextProvider: FC<Props> = ({ children, ...props }) => {
+    return <AuthOptionsContext.Provider value={props}>{children}</AuthOptionsContext.Provider>
 }
 
-const AuthOptionsContextProvider = ({ value, children }: AuthOptionsContextProviderProps) => {
-    return <AuthOptionsContext.Provider value={value}>{children}</AuthOptionsContext.Provider>
-}
-
-export { AuthOptionsContext, AuthOptionsContextProvider }
