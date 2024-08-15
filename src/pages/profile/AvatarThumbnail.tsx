@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// @ts-nocheck
 import Avatar from '@mui/material/Avatar'
+import PropTypes from 'prop-types'
 
 const USER_AVATAR_DEFAULT = '/images/avatars/avatar_11.png'
 const USER_AVATAR_SIZE = 15

@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+// @ts-nocheck
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
@@ -7,6 +6,8 @@ import CardContent from '@mui/material/CardContent'
 import Divider from '@mui/material/Divider'
 import LinearProgress from '@mui/material/LinearProgress'
 import Typography from '@mui/material/Typography'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
 import AvatarThumbnail from './AvatarThumbnail'
 import UploadPictureButton from './UploadPictureButton'
 

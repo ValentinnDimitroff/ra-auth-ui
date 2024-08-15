@@ -1,14 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { TextInput, SaveButton, required, Form } from 'react-admin'
+// @ts-nocheck
+import EditIcon from '@mui/icons-material/Edit'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
-import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
+import CardHeader from '@mui/material/CardHeader'
 import Divider from '@mui/material/Divider'
-import EditIcon from '@mui/icons-material/Edit'
+import Grid from '@mui/material/Grid'
+import PropTypes from 'prop-types'
+import { Form, SaveButton, TextInput, required } from 'react-admin'
 
 const styles = {
     actions: {

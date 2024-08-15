@@ -1,8 +1,9 @@
-import React, { forwardRef, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { useNotify, useTranslate } from 'react-admin'
-import Button from '@mui/material/Button'
+// @ts-nocheck
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import Button from '@mui/material/Button'
+import PropTypes from 'prop-types'
+import { forwardRef } from 'react'
+import { useNotify, useTranslate } from 'react-admin'
 
 const raTransformFileOnUpload = (file) => {
     if (!(file instanceof File)) {

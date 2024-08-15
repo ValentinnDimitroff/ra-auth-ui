@@ -12,7 +12,7 @@
         "sourceType": "module"
     },
     "plugins": ["react", "react-hooks"],
-    "ignorePatterns": ["*.test.js"],
+    "ignorePatterns": ["*.test.js", "dist/**/*"],
     "rules": {
         "indent": [
             "error",
