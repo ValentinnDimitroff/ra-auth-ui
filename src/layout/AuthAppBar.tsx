@@ -1,4 +1,9 @@
-import { AppBar } from 'react-admin'
-import { AuthUserMenu } from './user-menu/AuthUserMenu'
+import { FC } from 'react'
+import { AppBar, AppBarProps } from 'react-admin'
+import { AuthUserMenu } from './AuthUserMenu'
 
-export const AuthAppBar = ({ ...props }) => <AppBar userMenu={<AuthUserMenu />} {...props} />
+/**
+ * AppBar with built in auth connected userMenu
+ * @param props - AppBarProps
+ */
+export const AuthAppBar: FC<Omit<AppBarProps, "userMenu">> = (props) => <AppBar {...props} userMenu={<AuthUserMenu />} />

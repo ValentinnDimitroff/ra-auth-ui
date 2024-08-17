@@ -1,11 +1,12 @@
-import { FC, PropsWithChildren } from 'react'
-import { Layout } from 'react-admin'
+import { FC } from 'react'
+import { Layout, LayoutProps } from 'react-admin'
 import { AuthAppBar } from './AuthAppBar'
 
-const AuthLayout: FC<PropsWithChildren> = ({ children, ...props }) => (
-    <Layout {...props} appBar={AuthAppBar}>
-        {children}
-    </Layout>
+/**
+ * Layout with built in auth connected appBar
+ * @param props - LayoutProps
+ */
+export const AuthLayout: FC<Omit<LayoutProps, "appBar">> = (props) => (
+    <Layout {...props} appBar={AuthAppBar} />
 )
 
-export default AuthLayout
