@@ -15,8 +15,7 @@
         "noImplicitAny": true,
         "strictNullChecks": true,
         "allowSyntheticDefaultImports": true,
-        "skipLibCheck": true, // doesn't check for errors in dependencies' libraries
-        "types": ["vitest/globals", "@testing-library/jest-dom"],
+        "skipLibCheck": true // doesn't check for errors in dependencies' libraries
         // "target": "es2016",
         // "forceConsistentCasingInFileNames": true,
         // "strict": true,
