@@ -1,26 +1,20 @@
-import { FC, ReactNode } from 'react'
-import { Route } from 'react-router-dom'
+// @ts-nocheck
+import { FC } from 'react'
+// import { createTheme } from '@mui/material/styles'
 import { Admin, AdminProps, CustomRoutes } from 'react-admin'
-
+import { Route } from 'react-router-dom'
+// import { PROFILE_ROUTE } from './constants/defaultRoutes'
 import { AuthOptionsContextProvider, AuthOptionsContextType } from './context/AuthOptionsContext'
 import { AuthLayout } from './layout'
-import { defaultAuthRoutes, defaultPasswordRules } from './utils'
-import { ProfilePage } from './pages'
-import { PROFILE_ROUTE } from './constants/defaultRoutes'
-
-// import { createTheme } from '@mui/material/styles'
+import { ProfilePage } from './pages/profile/ProfilePage'
+import { defaultAuthRoutes } from './utils'
 
 export type AuthAdminProps = AdminProps & {
     authRoutes?: { path: string; Component: FC }[]
     authOptions?: AuthOptionsContextType
-    children?: ReactNode //fix typescript issues
 }
 
-export const defaultAuthOptions = {
-    profilePage: true,
-    userMenuItems: [],
-    passwordRules: defaultPasswordRules || null, // TODO - not yet implemented
-}
+export const defaultAuthOptions = { profilePage: <ProfilePage /> || null, userMenuItems: [] }
 
 export const AuthAdmin: FC<AuthAdminProps> = ({
     authRoutes = defaultAuthRoutes,
@@ -32,6 +26,10 @@ export const AuthAdmin: FC<AuthAdminProps> = ({
 }) => {
     // const { theme } = rest
     // const muiTheme = useMemo(() => createTheme(theme), [theme])
+
+    // TODO - add ProfilePage if opted in
+    // <Route exact path={PROFILE_ROUTE} element={<profilePage />} />
+
     return (
         <AuthOptionsContextProvider {...authOptions}>
             <Admin loginPage={false} layout={layout} {...rest}>
@@ -39,18 +37,6 @@ export const AuthAdmin: FC<AuthAdminProps> = ({
                     {authRoutes.map(({ path, Component }) => (
                         <Route key={path} path={path} element={<Component />} />
                     ))}
-
-                    {/* added conditional for profilePage prop routing - can be improved? */}
-                    <Route
-                        path={PROFILE_ROUTE}
-                        element={
-                            authOptions.profilePage === true ? (
-                                <ProfilePage />
-                            ) : authOptions.profilePage === false ? null : (
-                                authOptions.profilePage
-                            )
-                        }
-                    />
                 </CustomRoutes>
                 {children}
             </Admin>
