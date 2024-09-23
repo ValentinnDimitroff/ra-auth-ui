@@ -3,10 +3,8 @@ import {
     FORGOT_PASSWORD_ROUTE,
     RESET_PASSWORD_ROUTE,
     SIGN_UP_ROUTE,
-    PROFILE_ROUTE,
 } from './constants/defaultRoutes'
-import { ForgotPasswordPage, LoginPage, ResetPasswordPage, SignUpPage, ProfilePage } from './pages'
-import { PasswordRulesType } from './pages/profile/ProfileDetailsCard'
+import { ForgotPasswordPage, LoginPage, ResetPasswordPage, SignUpPage } from './pages'
 
 export const defaultAuthRoutes: { path: string; Component: React.FC }[] = [
     {
@@ -26,13 +24,3 @@ export const defaultAuthRoutes: { path: string; Component: React.FC }[] = [
         Component: ResetPasswordPage,
     },
 ]
-
-//added defaultPasswordRules props
-export const defaultPasswordRules: PasswordRulesType = {
-    RequiteDigit: false,
-    RequiteLowercase: true,
-    RequiteNonAlphanumeric: false,
-    RequiteUppercase: true,
-    RequitedLength: true,
-    RequiteSymbols: false,
-}
