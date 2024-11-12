@@ -9,7 +9,7 @@ import { Person } from '@mui/icons-material'
  */
 export const AuthUserMenu: FC = () => {
     const { userMenuItems, profilePage } = useContext(AuthOptionsContext)
-    
+
     return (
         <UserMenu>
             {profilePage && (
@@ -21,9 +21,7 @@ export const AuthUserMenu: FC = () => {
                 />
             )}
 
-            {userMenuItems?.map((item, key) => (
-                <li key={key}>{item}</li>
-            ))}
+            {userMenuItems}
             <Logout />
         </UserMenu>
     )

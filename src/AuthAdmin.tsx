@@ -32,6 +32,9 @@ export const AuthAdmin: FC<AuthAdminProps> = ({
 }) => {
     // const { theme } = rest
     // const muiTheme = useMemo(() => createTheme(theme), [theme])
+
+    // Note that we need to provide defaults for ProfilePage props onPictureUpload, onSubmit
+    const ProfileComponent = authOptions.profilePage === true ? <ProfilePage /> : authOptions.profilePage
     return (
         <AuthOptionsContextProvider {...authOptions}>
             <Admin loginPage={false} layout={layout} {...rest}>
@@ -39,18 +42,7 @@ export const AuthAdmin: FC<AuthAdminProps> = ({
                     {authRoutes.map(({ path, Component }) => (
                         <Route key={path} path={path} element={<Component />} />
                     ))}
-
-                    {/* added conditional for profilePage prop routing - can be improved? */}
-                    <Route
-                        path={PROFILE_ROUTE}
-                        element={
-                            authOptions.profilePage === true ? (
-                                <ProfilePage />
-                            ) : authOptions.profilePage === false ? null : (
-                                authOptions.profilePage
-                            )
-                        }
-                    />
+                    {authOptions.profilePage !== false && <Route path={PROFILE_ROUTE} element={ProfileComponent} />}
                 </CustomRoutes>
                 {children}
             </Admin>

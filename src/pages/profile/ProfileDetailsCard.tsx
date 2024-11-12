@@ -16,15 +16,6 @@ const styles = {
     },
 }
 
-export type PasswordRulesType = {
-    RequiteDigit?: boolean
-    RequiteLowercase?: boolean
-    RequiteNonAlphanumeric?: boolean
-    RequiteUppercase?: boolean
-    RequitedLength?: PropTypes.number
-    RequiteSymbols?: boolean
-}
-
 const Title = () => (
     <Box display="flex" alignItems="center">
         <Box mr="10px"> Edit Profile </Box>

@@ -7,18 +7,18 @@ import { useAuthenticated, useGetIdentity } from 'react-admin'
 export const TestProfile: FC = () => {
     useAuthenticated()
 
-    const { identity, loading, error } = useGetIdentity()
+    const { identity, isLoading, error } = useGetIdentity() //changed prop loading to isLoading, there were no exports for loading
     const [profileData, setProfileData] = useState()
 
     useEffect(() => {
-        if (!loading) {
+        if (!isLoading) {
             setProfileData(identity)
         }
-    }, [identity, loading])
+    }, [identity, isLoading])
 
     if (error) return <div>{error}</div>
 
-    if (loading || !profileData) {
+    if (isLoading || !profileData) {
         return (
             <Box display="flex" mt={10} justifyContent="center">
                 <CircularProgress />
