@@ -154,7 +154,7 @@ If unset provides default user menu ready to use. But you can pass custom profil
 -   supports passing own component
 
 ### loginRedirectPath
--   pass your login redirect path here
+-   the path to get redirected after a successful login attempt
 
 ### userMenuItems
 -   pass your user menu items here (see example below)
