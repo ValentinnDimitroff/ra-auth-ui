@@ -25,7 +25,7 @@ export const App = () => {
                     />,
                 ],
                 loginRedirectPath: '/comments',
-                profilePage: false, // test with true or <TestProfile /> component
+                profilePage: true, // test with true or <TestProfile /> component
             }}
             dataProvider={dataProvider}
             authProvider={authProvider}

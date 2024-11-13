@@ -42,7 +42,7 @@ export const AuthAdmin: FC<AuthAdminProps> = ({
                     {authRoutes.map(({ path, Component }) => (
                         <Route key={path} path={path} element={<Component />} />
                     ))}
-                    {authOptions.profilePage !== false && <Route path={PROFILE_ROUTE} element={ProfileComponent} />}
+                    {authOptions.profilePage && <Route path={PROFILE_ROUTE} element={ProfileComponent} />}
                 </CustomRoutes>
                 {children}
             </Admin>
