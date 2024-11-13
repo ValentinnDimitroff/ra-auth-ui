@@ -23,7 +23,6 @@ export const defaultAuthRoutes: { path: string; Component: React.FC }[] = [
 export type PasswordRulesType = {
     requiredDigit?: boolean
     requiredLowercase?: boolean
-    requiredNonAlphanumeric?: boolean
     requiredUppercase?: boolean
     requiredLength?: number
     requiredSymbols?: boolean
@@ -32,7 +31,6 @@ export type PasswordRulesType = {
 export const defaultPasswordRules: PasswordRulesType = {
     requiredDigit: true,
     requiredLowercase: true,
-    requiredNonAlphanumeric: true,
     requiredUppercase: true,
     requiredLength: 8,
     requiredSymbols: true,
