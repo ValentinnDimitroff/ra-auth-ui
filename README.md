@@ -11,11 +11,25 @@ Authentication layouts, hooks and pipelines to integrate into react-admin out of
 
 No extra dependencies are required except the ones `react-admin` is already using.
 
-What's included?
+### What's included?
 
 -   Login and Sign Up
 -   Forgot Password and Reset Password
 -   Easy to use wrappers
+
+### Table of Content
+
+- [Installation](#installation)
+- [Available Props](#available-props)
+- [How to use](#how-to-use)
+  - [Prepare the authProvider](#prepare-the-authprovider)
+  - [Use AuthAdmin wrapper](#use-authadmin-wrapper)
+  - [Change route urls](#change-route-urls)
+  - [authOptions](#authoptions)
+    - [profilePage](#profilepage)
+    - [loginRedirectPath](#loginredirectpath)
+    - [userMenuItems](#usermenuitems)
+- [Troubleshooting](#troubleshooting)
 
 ## Installation
 
@@ -44,11 +58,13 @@ yarn run start-demo
 
 ## Available Props
 
+
 | Name        | Type              | Default   | Description                                                                                             |
 | ----------- | ----------------- | --------- | ------------------------------------------------------------------------------------------------------- |
-| authRoutes  | array             | array     | *If unset provides default authentication routes and screens.*                                          |
-| authLayout  | object            | undefined | *If set to '{userMenu: true}' provides default UserMenu. If set to object pass on the props to Layout.* |
-| profilePage | bool \| component | true      | *If set to 'true' provides default Profile Page layout. You can pass your own component.*               |
+| `authRoutes`  | array             | array     | *If unset provides default authentication routes and screens. But you can pass custom routes like `{ path: string; Component: FC }`*                                          |
+| `authLayout`  | object            | undefined | *If set to '{userMenu: true}' provides default UserMenu. If set to object pass on the props to Layout.* |
+| `profilePage` | bool \| component | true      | *If set to 'true' provides default Profile Page layout. You can pass your own component.*               |
+
 
 <br/>
 
@@ -70,37 +86,41 @@ const authProvider = {
 
 ### 2. Use AuthAdmin wrapper
 
-The most basic way to add the complete set of authentication screens to your app is to subtitute the `<Admin/>` component with `<AuthAdmin/>`. Built-in routing and custom pages will be added for you.
+The most basic way to add the complete set of authentication screens to your app is to substitute the `<Admin/>` component with `<AuthAdmin/>`. Built-in routing and custom pages will be added for you.
 
 ```jsx
 import { AuthAdmin } from 'ra-auth-ui'
 
-const App = () => <AuthAdmin authProvider={authProvider}>// your Routes here</AuthAdmin>
+const App = () => <AuthAdmin authProvider={authProvider}>// your React Admin Resources goes here</AuthAdmin>
 ```
 
 `<AuthAdmin>` will pass forward all the props to the `<Admin>` component.
 
-<!-- ## Change route urls
 
-- All you have to do is subtitute the `<Admin/>` component with `<AuthAdmin/>`
-- provide `authRoutes` prop
+## Change route urls
 
+- All you have to do is substitute the `<Admin/>` component with `<AuthAdmin/>`
+- provide `authRoutes` prop as array and pass your routes with corresponding path and component like `{ path: string; Component: FC }`
+
+```jsx
+const App = () => {
+    return (
+        <AuthAdmin authProvider={authProvider} authRoutes={[{path: '/path', Component: Component}, {path: '/path2', Component: Component2}]}> 
+             <Resource name="name" list={ListGuesser} edit={EditGuesser} show={ShowGuesser} /> 
+        </AuthAdmin>
+    )
+}
 ```
-Example
-```
 
-## Edit auth pages style
+<!-- ## Edit auth pages style
 
-- All you have to do is subtitute the `<Admin/>` component with `<AuthAdmin/>`
+- All you have to do is substitute the `<Admin/>` component with `<AuthAdmin/>`
 - provide `authRoutes` prop
 - wrap default pages into own components
 
 ```
 Example
 ``` -->
-
-Docs Sketches ->
-
 
 ## Functionality of authLayout
  Provides authenticated layout with smart defaults.
@@ -127,13 +147,51 @@ Docs Sketches ->
       -   appBar
       -   sideBar
 
-- ### **profilePage** - works in three possible modes:
+- ### profilePage - works in three possible modes:
 
   - `true` - enabled by default. Loads the default Profile component
   - `false` - removes the component and the route `/profile`
   - `custom component` - passes the custom component and renders it with the default route `/profile`
 
   *Note: The default routes can be changed*
+  
+- ### authOptions
+
+  If unset provides default user menu ready to use. But you can pass custom profilePage, loginRedirectPath or array of userMenuItems to the user menu.
+
+- ### profilePage
+  -   default is provided
+  -   supports passing own component
+
+- ### loginRedirectPath
+  -   the path to get redirected after a successful login attempt
+
+- ### userMenuItems
+  -   pass your user menu items here (see example below)
+  
+  ```jsx
+  import { AuthAdmin } from 'ra-auth-ui'
+
+   <AuthAdmin
+              authOptions={{
+                  userMenuItems: [
+                      <MenuItemLink
+                          to="/posts"
+                          leftIcon={<ImportContactsTwoTone />}
+                          primaryText="Posts"
+                          placeholder={''}
+                      />,
+                  ],
+                  loginRedirectPath: '/comments',
+              }}
+              dataProvider={dataProvider}
+              authProvider={authProvider}
+              theme={defaultTheme}
+          >
+              <Resource name="posts" list={ListGuesser} edit={EditGuesser} show={ShowGuesser} />
+              <Resource name="comments" list={ListGuesser} edit={EditGuesser} show={ShowGuesser} />
+          </AuthAdmin>
+  ```
 
 ## Troubleshooting
 
