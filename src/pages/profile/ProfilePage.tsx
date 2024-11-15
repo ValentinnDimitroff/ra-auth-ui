@@ -7,10 +7,15 @@ import { useAuthenticated, useGetIdentity } from 'react-admin'
 import ProfileDetailsCard from './ProfileDetailsCard'
 import ProfileSummaryCard from './ProfileSummaryCard'
 
-export const ProfilePage = ({ onPictureUpload, onSubmit }) => {
+interface ProfilePageProps {
+    onPictureUpload: () => void
+    onSubmit: () => void
+}
+
+export const ProfilePage = ({ onPictureUpload, onSubmit }: ProfilePageProps) => {
     useAuthenticated()
 
-    const { identity, loading, error } = useGetIdentity()
+    const { identity, isLoading: loading, error } = useGetIdentity()
     const [profileData, setProfileData] = useState()
 
     useEffect(() => {

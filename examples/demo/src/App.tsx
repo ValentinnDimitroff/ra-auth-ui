@@ -1,15 +1,16 @@
 import { ImportContactsTwoTone } from '@mui/icons-material'
-import { AuthAdmin } from 'ra-auth-ui'
+import { AuthAdmin } from '../../../src/AuthAdmin' // NOTE import is intentional to test current changes. Update for production
 import {
-  EditGuesser,
-  ListGuesser,
-  MenuItemLink,
-  Resource,
-  ShowGuesser,
-  defaultTheme,
+    EditGuesser,
+    ListGuesser,
+    MenuItemLink,
+    Resource,
+    ShowGuesser,
+    defaultTheme,
 } from 'react-admin'
 import { authProvider } from './authProvider'
 import { dataProvider } from './dataProvider'
+import { TestProfile } from './TestProfile' // import for test profile component if loading or not
 
 export const App = () => {
     return (
@@ -24,6 +25,7 @@ export const App = () => {
                     />,
                 ],
                 loginRedirectPath: '/comments',
+                profilePage: true, // test with true or <TestProfile /> component
             }}
             dataProvider={dataProvider}
             authProvider={authProvider}
