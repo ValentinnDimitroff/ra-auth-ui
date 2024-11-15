@@ -1,5 +1,5 @@
 import { createContext, FC, PropsWithChildren, ReactNode } from 'react'
-import { PasswordRulesType } from '../pages/profile/ProfileDetailsCard'
+import { PasswordRulesType } from '../utils'
 
 export interface AuthOptionsContextType {
     profilePage?: boolean | ReactNode 
